@@ -1,0 +1,39 @@
+POST https://mmservice.smartechy.net/validateaccount
+Content-Type: application/json
+Authorization: Basic YWRtaW46YXNk
+
+###
+POST https://mmservice.smartechy.net/signupuser?pCredentials=YWRtaW46YXNk
+Content-Type: application/json
+
+###
+POST https://mmservice.smartechy.net/forgotpassword?pParam=GVzdEB0ZXN0LmNvbQ==
+Content-Type: application/json
+
+###
+POST https://mmservice.smartechy.net/getgamepoints
+Content-Type: application/json
+Authorization: Basic YWRtaW46YXNk
+
+{
+  "mm_GameId": 0,
+  "mm_QuizId": 0,
+  "mm_UserName": "powergirl",
+  "mm_RecordCount": 10,
+  "mm_InstanceStart": "2022-03-01",
+  "mm_InstanceEnd": "2023-05-07"
+ }
+
+###
+POST https://mmservice.smartechy.net/getgamepoints
+Content-Type: application/json
+Authorization: Basic YWRtaW46YXNk
+
+{
+  "mm_GameId": 0,
+  "mm_QuizId": 0,
+  "mm_UserName": "",
+  "mm_RecordCount": 10,
+  "mm_InstanceStart": "2022-03-01",
+  "mm_InstanceEnd": "2023-05-07"
+ }

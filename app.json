@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "madmoney",
+    "slug": "madmoney",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/splash-screen.jpg",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-screen.jpg",
+      "resizeMode": "center",
+      "backgroundColor": "#ffffff",
+      "imageResizeMode": "cover",
+      "imageWidth": 200,
+      "imageHeight": 100
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.gopalrohra.madmoney"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "91161c01-560d-4f72-9ba0-6de5facaed03"
+      }
+    }
+  }
+}
