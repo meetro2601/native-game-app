@@ -9,12 +9,14 @@ export function AuthContextProvider(props) {
     useEffect(() => {
         getUser()
         .then(auth => {
-            if (auth && auth.user) {
-                setAuth({isAuthenticated: true, isAuthenticating: false, user: auth.user})
-            } else {
-                setAuth({isAuthenticated: false, isAuthenticating: false, user: {}})
-            }
-        })
+            setTimeout(() => {
+                if (auth && auth.user) {
+                    setAuth({isAuthenticated: true, isAuthenticating: false, user: auth.user})
+                } else {
+                    setAuth({isAuthenticated: false, isAuthenticating: false, user: {}})
+                }
+            }, 3000);
+        }).catch(err => console.log("auth error"))
     })
     return (
         <AuthContext.Provider value={[auth, setAuth]}>

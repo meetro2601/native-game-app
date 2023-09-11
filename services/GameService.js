@@ -40,7 +40,7 @@ export async function getAllUsersGamePoints(interval) {
       mm_GameId: 0,
       mm_QuizId: 0,
       mm_UserName: "",
-      mm_RecordCount: 10,
+      mm_RecordCount: 20,
       mm_InstanceStart: interval.start,
       mm_InstanceEnd: interval.end,
     };

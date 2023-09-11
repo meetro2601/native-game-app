@@ -33,7 +33,7 @@ export default ProfileCard;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
-    borderRadius: 8,
+    // borderRadius: 8,
     paddingHorizontal: 20,
     paddingVertical: 12,
     flexDirection: "row",
@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.5,
     shadowRadius: 10,
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
+    elevation: 12,
+    // borderWidth: 1,
+    borderBottomColor: "#e0e0e0",
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
   },

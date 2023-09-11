@@ -1,4 +1,4 @@
-import { View, ImageBackground, Text, Image, TouchableOpacity } from "react-native";
+import { View, ImageBackground, Text, Image, TouchableOpacity, SafeAreaView } from "react-native";
 import { styles } from "../styles/Home";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useEffect, useState, useCallback } from "react";
@@ -9,7 +9,7 @@ import HamBurger from "../svg/HamBurger";
 export function Header(props) {
   return (
     // change the paddingTop to 2 while building an android app
-    <View style={[{ flex: 1, flexDirection: "column", paddingHorizontal: 38, paddingBottom: 2, paddingTop: 32 }]}>
+    <View style={[{ flex: 1, flexDirection: "column"}]}>
       <HeaderTopBar />
     </View>
   );
@@ -22,6 +22,7 @@ function HeaderTopBar(props) {
   useFocusEffect(
     useCallback(() => {
       getCurrentUserGamePoints().then((res) => {
+        // console.log(res)
         const r = res.data[0];
         console.log("get game points start getting game data", res.data);
         if (r !== undefined) {
@@ -30,15 +31,15 @@ function HeaderTopBar(props) {
           console.log("set empty data");
           setData({ sPoints: 0, sCoins: 0, sUserName: "" });
         }
-      });
+      }).catch(err => console.log("header error"));
     }, [])
   );
 
   return (
-    <View style={[{ flex: 1, flexDirection: "row" }]}>
+    <View style={[{flex:1,gap:20,padding: 0,marginHorizontal: 10, flexDirection: "row",justifyContent:'space-evenly',alignItems:"center"}]}>
       <View style={styles.headerLeft}>
         <ImageBackground
-          style={[styles.iconWrap, { width: 120, height: 59 }]}
+          style={[styles.iconWrap, { width: 120, height: 60 }]}
           source={require("./../assets/app-logo.png")}
         />
       </View>

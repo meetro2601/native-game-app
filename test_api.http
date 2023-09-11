@@ -2,6 +2,10 @@ POST https://mmservice.smartechy.net/validateaccount
 Content-Type: application/json
 Authorization: Basic YWRtaW46YXNk
 
+POST https://mmservice.smartechy.net/getuserdetail
+Content-Type: application/json
+Authorization: Basic YWRtaW46YXNk
+
 ###
 POST https://mmservice.smartechy.net/signupuser?pCredentials=YWRtaW46YXNk
 Content-Type: application/json
@@ -37,3 +41,15 @@ Authorization: Basic YWRtaW46YXNk
   "mm_InstanceStart": "2022-03-01",
   "mm_InstanceEnd": "2023-05-07"
  }
+
+ API Name: updateProfile
+Params:
+			{
+			  "usr_Id": 0,
+			  "usr_UserName": "quickrabbit",
+			  "usr_Name": "Vishal",
+			  "usr_MobileNo": "999999999",
+			  "usr_EmailId": "test@domain.com",
+			  "prf_Gender": false,
+			  "usr_DOB": "2000-12-25"
+			}

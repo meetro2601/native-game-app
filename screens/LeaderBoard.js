@@ -1,23 +1,42 @@
-import { View, Pressable, Text, Image } from "react-native";
+import { View, Pressable, Text, Image, ImageBackground, TouchableHighlight } from "react-native";
 import { Header } from "../components/Header";
 import { leaderBoardStyles } from "../styles/LeaderBoard";
 import { LinearGradient } from "expo-linear-gradient";
-import BlastSvgComponent from "../svg/BlastSvg";
 import CrownSvgComponent from "../svg/CrownSvg";
 import { MadMoneyApp } from "../components/MadMoneyApp";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAllUsersGamePoints } from "../services/GameService";
+import { AuthContext } from "../context/AuthContext";
+import { Shadow } from "react-native-shadow-2";
 
 export function LeaderBoard(props) {
   const tabs = ["Today", "Week", "Month"];
-  const [selectedTab, setSelectedTab] = useState("Today");
+  const [selectedTab, setSelectedTab] = useState("Today")
+  const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    const interval = getInterval(selectedTab);
+
+    getAllUsersGamePoints(interval).then((res) => {
+      res.data?.sort((a, b) => b.sPoints - a.sPoints)
+      // console.log(res.data)
+      if (res.data) {
+        const playersData = res.data.map((obj, index) => {
+          obj["rank"] = index + 1
+          return obj
+        })
+        setPlayers(playersData);
+      }
+    }).catch(err => console.log("leaderboard error" + err));
+  }, [selectedTab]);
+
 
   return (
     <MadMoneyApp>
       <Header />
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
-      <UserStage />
-      <TopPlayers selectedTab={selectedTab} />
+      <UserStage playersList={players} />
+      <TopPlayers playersList={players} selectedTab={selectedTab} />
     </MadMoneyApp>
   );
 }
@@ -37,58 +56,76 @@ function Tab(props) {
 
   return (
     <Pressable style={s} onPress={() => props.setSelectedTab(props.text)}>
-      <Text style={leaderBoardStyles.tabButtonText}>{props.text}</Text>
+      <Text style={[leaderBoardStyles.tabButtonText, props.text === props.selectedTab && leaderBoardStyles.btnActive]}>{props.text}</Text>
     </Pressable>
   );
 }
 
 function UserStage(props) {
   return (
+
     <View style={leaderBoardStyles.userStage}>
+
       <View style={leaderBoardStyles.userStageBlock2}>
-        <Image
-          style={[leaderBoardStyles.img, leaderBoardStyles.backgroundRank2]}
-          source={{
-            uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
-          }}
-        />
-        <WinningRank rankStyle={leaderBoardStyles.winner2} rank={2} />
-        <WinningUser name="Rais Pinjari" />
+        <View style={{ height: 220, alignItems: "center", justifyContent: "flex-end" }}>
+          <Shadow distance={15} startColor={'#0F5E5840'} endColor={'#ffffff40'}>
+            <Image
+              style={[leaderBoardStyles.img2, leaderBoardStyles.img, leaderBoardStyles.backgroundRank2]}
+              source={{
+                uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
+              }}
+            />
+          </Shadow>
+          <WinningRank rankStyle={leaderBoardStyles.winner2} rank={props.playersList[1]?.rank} />
+        </View>
+        <WinningUser nameStyle={{ top: 10 }} name={props.playersList[1]?.sUserName} />
+
       </View>
       <View style={leaderBoardStyles.userStageBlock}>
-        <View style={{ zIndex: -1, marginTop: -15 }}>
-          <BlastSvgComponent />
-        </View>
-        <View style={leaderBoardStyles.crown}>
-          <CrownSvgComponent />
-        </View>
-        <Image
-          style={[leaderBoardStyles.img, leaderBoardStyles.img1, leaderBoardStyles.backgroundRank1]}
-          source={{
-            uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
-          }}
-        />
-        <WinningRank rankStyle={leaderBoardStyles.winner1} rank={1} />
 
-        <WinningUser name="Kamlesh Kelji" />
+        {/* <View style={{}}> */}
+        <ImageBackground resizeMode="cover" style={{ height: 220, alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }} source={require("../assets/blast.png")}>
+
+          <View style={leaderBoardStyles.crown}>
+            <CrownSvgComponent />
+          </View>
+          <Shadow distance={20} startColor={'#E2298260'} endColor={'#ffffff60'}>
+
+          <Image
+            style={[leaderBoardStyles.img, leaderBoardStyles.img1, leaderBoardStyles.backgroundRank1]}
+            source={{
+              uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
+            }}
+            />
+            </Shadow>
+          <WinningRank rankStyle={leaderBoardStyles.winner1} rank={props.playersList[0]?.rank} />
+
+          <WinningUser nameStyle={{ top: 20 }} name={props.playersList[0]?.sUserName} />
+        </ImageBackground>
+        {/* </View> */}
       </View>
       <View style={leaderBoardStyles.userStageBlock3}>
-        <Image
-          style={[leaderBoardStyles.img, leaderBoardStyles.backgroundRank3]}
-          source={{
-            uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
-          }}
-        />
-        <WinningRank rankStyle={leaderBoardStyles.winner3} rank={3} />
-        <WinningUser name="Ankit Adulkar" />
+        <View style={{ height: 220, alignItems: "center", justifyContent: "flex-end" }}>
+        <Shadow distance={12} startColor={'#040B4D40'} endColor={'#ffffff40'} >
+          <Image
+            style={[leaderBoardStyles.img, leaderBoardStyles.img3, leaderBoardStyles.backgroundRank3]}
+            source={{
+              uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
+            }}
+            />
+            </Shadow>
+          <WinningRank rankStyle={leaderBoardStyles.winner3} rank={props.playersList[2]?.rank} />
+        </View>
+        <WinningUser nameStyle={{ top: 15 }} name={props.playersList[2]?.sUserName} />
       </View>
+      {/* </ImageBackground> */}
     </View>
   );
 }
 
 function WinningUser(props) {
   //return null;
-  return <Text style={[leaderBoardStyles.imgCaption]}>{props.name}</Text>;
+  return <Text style={[leaderBoardStyles.imgCaption, props.nameStyle]}>{props.name}</Text>;
 }
 
 function WinningRank(props) {
@@ -124,58 +161,93 @@ function getInterval(tab) {
 }
 
 function TopPlayers(props) {
-  const [players, setPlayers] = useState([]);
+  const [auth] = useContext(AuthContext)
+  const [rankingList, setrankingList] = useState();
 
   useEffect(() => {
-    const interval = getInterval(props.selectedTab);
+    const userScore = props?.playersList?.find((obj) => {
+      // const user = await getUser()
+      return obj?.sUserName == auth.user.fullName && obj?.rank > 3
+    })
 
-    getAllUsersGamePoints(interval).then((res) => {
-      if (res.data) {
-        setPlayers(res.data);
-      }
-    });
-  }, [props.selectedTab]);
+    if (userScore == undefined) {
+      setrankingList(props.playersList)
+    } else {
+      const otherPlayers = props?.playersList?.filter((obj) => {
+        return obj?.sUserName != auth.user.fullName && obj?.rank != userScore.rank
+      })
+      // console.log([userScore, ...otherPlayers])
+      setrankingList(prevState => [userScore, ...otherPlayers])
+    }
+  }, [props.playersList])
 
   return (
     <View style={leaderBoardStyles.recentMatch}>
-      <View style={leaderBoardStyles.recentMatchHead}>
+      <Shadow distance={4} style={leaderBoardStyles.recentMatchHead}>
+
+      {/* <View style={leaderBoardStyles.recentMatchHead}> */}
         <LinearGradient
           colors={["#157BF2", "rgba(21, 123, 242, 0)"]}
           locations={[0, 1]}
-          style={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}
-        >
-          <Text style={leaderBoardStyles.recentMatchHeadText}>Top Players</Text>
+          start={{ x: 0.2, y: 0.0 }} end={{ x: 1, y: 1.5 }}
+          style={{ borderTopLeftRadius: 40, height: "100%", borderTopRightRadius: 40 }}
+          >
+          <Text style={leaderBoardStyles.recentMatchHeadText}>Recent Match</Text>
         </LinearGradient>
-      </View>
-      <Players players={players} />
+      {/* </View> */}
+      
+          </Shadow>
+      <Players ranking={rankingList} />
     </View>
   );
 }
 
 function Players(props) {
+  const [selected, setselected] = useState(1);
   return (
-    <View>
-      {props.players.map((player, index) => (
-        <Player player={player} key={index} />
+    <>
+      <View style={[leaderBoardStyles.playerRow, { height: 50 }]}>
+        <View style={[leaderBoardStyles.gameResultItem, { flex: 1, alignItems: "center" }]}>
+          <Text style={leaderBoardStyles.playerText}>Rank</Text>
+        </View>
+        <View style={[leaderBoardStyles.gameResultItem, { flex: 3, alignItems: "center" }]}>
+          <Text style={leaderBoardStyles.playerText}>Name</Text>
+        </View>
+        <View style={[leaderBoardStyles.gameResultItem, { flex: 1, alignItems: "center" }]}>
+          <Text style={leaderBoardStyles.playerText}>Score</Text>
+        </View>
+      </View>
+      {props.ranking?.map((player, index) => (
+        <Player setselected={() => setselected(player?.rank)} selected={selected == player?.rank} player={player} key={index} />
       ))}
-    </View>
+    </>
   );
 }
 
 function Player(props) {
-  
+
   return (
-    <View style={leaderBoardStyles.gameResultItem}>
-      <Image
-        source={{ uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg" }}
-        style={leaderBoardStyles.playerImg}
-      />
-      <View style={[leaderBoardStyles.pr5, leaderBoardStyles.player, { width: 50 }]}>
-        <Text style={leaderBoardStyles.playerText}>{props.player.sUserName}</Text>
-      </View>
-      <View style={[leaderBoardStyles.pr5, leaderBoardStyles.player, { width: 50 }]}>
-        <Text style={leaderBoardStyles.playerText}>{props.player.sPoints}</Text>
-      </View>
-    </View>
+    <TouchableHighlight onPress={props.setselected} activeOpacity={0.95} >
+      <Shadow disabled={!props.selected} distance={3} offset={[0,-2]} startColor={'#157bf230'} endColor={'#ffffff30'} style={[props.selected ? leaderBoardStyles.selectedRow : leaderBoardStyles.playerRow]}>
+      {/* <View > */}
+
+        <View style={[leaderBoardStyles.gameResultItem, { flex: 1, alignItems: "center" }]}>
+          {/* <Image
+          source={{ uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg" }}
+          style={leaderBoardStyles.playerImg}
+        /> */}
+          <Text style={leaderBoardStyles.playerText}>#{props.player.rank}</Text>
+        </View>
+        <View style={[leaderBoardStyles.gameResultItem, { flex: 3, alignItems: "center" }]}>
+          <Text style={leaderBoardStyles.playerText}>{props.player.sUserName}</Text>
+        </View>
+        <View style={[leaderBoardStyles.gameResultItem, { flex: 1, alignItems: "center" }]}>
+          <View style={[leaderBoardStyles.scoreBox]}>
+            <Text style={leaderBoardStyles.scoreText}>{props.player.sPoints}</Text>
+          </View>
+        </View>
+      {/* </View> */}
+        </Shadow>
+    </TouchableHighlight>
   );
 }

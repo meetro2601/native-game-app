@@ -6,6 +6,7 @@ import Group12 from "../assets/Group12.png";
 import Group13 from "../assets/Group13.png";
 import Group14 from "../assets/Group14.png";
 import MenuList from "../components/Menu/MenuList";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const cardData = [
   { title: "Cash Balance", img: Frame11863 },
@@ -16,7 +17,7 @@ const cardData = [
 
 const ProfileMenu = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ProfileCard
         imageSource={require("../assets/Group19.png")}
         imageSource1={require("../assets/mditickdecagram.png")}
@@ -25,7 +26,7 @@ const ProfileMenu = () => {
         memberId1="123456"
       />
       <MenuList />
-    </View>
+    </SafeAreaView>
   );
 };
 

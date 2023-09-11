@@ -4,10 +4,10 @@
     "slug": "madmoney",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/splash-screen.jpg",
+    "icon": "./assets/splash-screen.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash-screen.jpg",
+      "image": "./assets/splash-screen.png",
       "resizeMode": "center",
       "backgroundColor": "#ffffff",
       "imageResizeMode": "cover",

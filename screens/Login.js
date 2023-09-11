@@ -53,7 +53,8 @@ function Form(props) {
 
   const handleLogin = async () => {
     setErrorMessage("");
-    const url = "https://mmservice.smartechy.net/validateaccount";
+    // const url = "https://mmservice.smartechy.net/validateaccount";
+    const url = "https://mmservice.smartechy.net/getuserdetail";
     const payload = {
       userId: email,
       Pwd: password,
@@ -76,19 +77,21 @@ function Form(props) {
       const response = await fetch(url, {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(payload),
+        // body: JSON.stringify(payload),
       });
+      console.log(response.status)
       const data = await response.json();
-      console.log(data["message"]);
-      if (data["message"] == "Success") {
+      // console.log(data["message"]);
+      // if (data["message"] == "Success") {
+      if (response.status == 200) {
         console.log("response is:");
-        console.log(data);
+        // console.log(data);
         setLoading(false);
         console.log("success");
-        const user = { name: email };
+        const user = { name: email, fullName:data.usr_Name };
         persistUser(user, encodedCredentials).then((auth) =>
           setAuth({ isAuthenticating: false, isAuthenticated: true, user: user })
-        );
+        ).catch(err=> console.log("login error"));
       } else {
         setErrorMessage(data["message"]);
         setLoading(false);

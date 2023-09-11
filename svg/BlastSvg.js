@@ -1,13 +1,14 @@
 import * as React from "react";
-import { View } from "react-native";
 import Svg, { Path, Defs, Pattern, Use, Image } from "react-native-svg";
+
 const BlastSvgComponent = (props) => (
-  <View style={{ position: "absolute", top: -40, left: -80, right: 0, bottom: 0 }}>
+  // <View style={{alignContent:"center",backgroundColor:"red"}}>
     <Svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      width={323}
-      height={334}
+      width={"100%"}
+      height={"100%"}
+      // style={{ position:"absolute",top:0,left:"26.5%"}}
       fill="none"
       {...props}
     >
@@ -24,6 +25,6 @@ const BlastSvgComponent = (props) => (
         />
       </Defs>
     </Svg>
-  </View>
+  // </View>
 );
 export default BlastSvgComponent;

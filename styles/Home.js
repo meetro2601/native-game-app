@@ -78,12 +78,13 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   bannerGame: {
+    // height: 220,
+    // width: 167,
+    // flex: 1,
+    // gap: 10,
+    // marginLeft: 5,
     height: 220,
-    width: 167,
-    flex: 1,
-    gap: 10,
-    marginLeft: 5,
-    elevation: 8,
+        flex: 1,
   },
   coin: {
     flexDirection: "row",
@@ -95,9 +96,10 @@ export const styles = StyleSheet.create({
     borderColor: "#A4CDFE",
     borderRadius: 10,
     backgroundColor: "#CFE5FF",
-    shadowColor: "rgba(0, 0, 0, 0.12)",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
+    elevation:4,
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
@@ -112,11 +114,11 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerRight: {
-    flex: 3,
-    justifyContent: "flex-end",
+    // flex: 1,
+    // justifyContent: "flex-end",
     alignItems: "center",
     flexDirection: "row",
-    marginRight: -25,
+    // marginRight: -25,
   },
   profilePic: {
     marginLeft: 10,
@@ -129,6 +131,6 @@ export const styles = StyleSheet.create({
   },
   headerLeft: {
     flex: 1,
-    marginLeft: -15,
+    // marginLeft: -15,
   },
 });

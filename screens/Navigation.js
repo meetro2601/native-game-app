@@ -9,8 +9,8 @@ import CurvedSvg from "../svg/CurvedSvg";
 
 const { width } = Dimensions.get("window");
 const MARGIN = 2;
-const TAB_BAR_WIDTH = width - 5 * MARGIN;
-const TAB_WIDTH = TAB_BAR_WIDTH / 5;
+const TAB_BAR_WIDTH = width - 1 * MARGIN;
+const TAB_WIDTH = width / 5;
 
 const styles = StyleSheet.create({
   animationIcon: {
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: "row",
-    width: TAB_BAR_WIDTH,
+    width: width,
     bottom: 0,
     height: 52,
     alignSelf: "center",
@@ -101,7 +101,7 @@ const alignIconCenter = (name) => {
   } else if (name === BottomNames.Earn) {
     return { bottom: -2, left: -0.5 };
   } else if (name === BottomNames.Home) {
-    return { bottom: -0.5, left: 0 };
+    return { bottom: -0.5, left: -0.25 };
   } else if (name === BottomNames.AllGames) {
     return { bottom: -3, left: 0 };
   } else if (name === BottomNames.Leaderboard) {

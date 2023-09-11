@@ -24,9 +24,9 @@ export const profileStyles = StyleSheet.create({
   },
   defaultImg: {
     alignSelf: "center",
-    marginTop: 16,
-    height: 100,
-    width: 100,
+    // marginTop: -16,
+    height: 120,
+    width: 120,
   },
   formLabel: {
     marginBottom: 20,
@@ -50,7 +50,7 @@ export const profileStyles = StyleSheet.create({
   input: {
     width: "100%",
     borderWidth: 0.5,
-    height: 54,
+    height: 50,
     borderColor: "#D3CFCF",
     borderRadius: 20,
     paddingHorizontal: 10,
@@ -74,8 +74,13 @@ export const profileStyles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     backgroundColor: "#157BF2",
-    height: 74,
-    marginTop: 30,
+    height: 68,
+    marginVertical: 30,
+    shadowColor:"blue",
+    shadowOffset:{width:10,height:15},
+    shadowOpacity:0.8,
+    shadowRadius:20,
+    elevation:6
   },
   errorText: {
     color: "red",
@@ -108,4 +113,10 @@ export const profileStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: 12 },
     shadowRadius: 24,
   },
+  dropdownText:{
+    color: "#000",
+    fontFamily: "Roboto",
+    fontSize: 15,
+    fontWeight: "bold",
+  }
 });
