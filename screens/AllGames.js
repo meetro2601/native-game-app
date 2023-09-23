@@ -21,12 +21,12 @@ export function AllGames(props) {
     },[])
 
     return <MadMoneyApp>
-        <Header/>
+        {/* <Header/> */}
     <View
         style={{
             // display: "flex",
             margin: 12,
-            paddingVertical: 8,
+            // paddingVertical: 8,
             // paddingHorizontal: 12,
             backgroundColor: "#ffffff",
             alignItems: "center",

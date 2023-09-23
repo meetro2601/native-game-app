@@ -9,7 +9,7 @@ import HamBurger from "../svg/HamBurger";
 export function Header(props) {
   return (
     // change the paddingTop to 2 while building an android app
-    <View style={[{ flex: 1, flexDirection: "column"}]}>
+    <View style={[{flexDirection: "column"}]}>
       <HeaderTopBar />
     </View>
   );
@@ -24,7 +24,7 @@ function HeaderTopBar(props) {
       getCurrentUserGamePoints().then((res) => {
         // console.log(res)
         const r = res.data[0];
-        console.log("get game points start getting game data", res.data);
+        // console.log("get game points start getting game data", res.data);
         if (r !== undefined) {
           setData(r);
         } else {
@@ -36,7 +36,7 @@ function HeaderTopBar(props) {
   );
 
   return (
-    <View style={[{flex:1,gap:20,padding: 0,marginHorizontal: 10, flexDirection: "row",justifyContent:'space-evenly',alignItems:"center"}]}>
+    <View style={[{gap:20,padding: 0,marginHorizontal: 10, flexDirection: "row",justifyContent:'space-evenly',alignItems:"center"}]}>
       <View style={styles.headerLeft}>
         <ImageBackground
           style={[styles.iconWrap, { width: 120, height: 60 }]}

@@ -2,10 +2,10 @@ import React from "react";
 import { SafeAreaView, FlatList } from "react-native";
 import MenuItem from "./MenuItem";
 import Group11 from "../../assets/Group11.png";
-import Group10 from "../../assets/Frame11863.png";
-import Group12 from "../../assets/Group12.png";
-import Group13 from "../../assets/Group13.png";
-import Group14 from "../../assets/Group14.png";
+import money from "../../assets/money.png";
+import coins from "../../assets/coins.png";
+import customer from "../../assets/customer.png";
+import trophy from "../../assets/trophy.png";
 import Group15 from "../../assets/Group15.png";
 import Group17 from "../../assets/Group17.png";
 import Group18 from "../../assets/Group18.png";
@@ -14,10 +14,10 @@ const MENU_ITEMS = [
   {
     title: "Earnings & Rewards",
     subItems: [
-      { title: "Cash Balance", icon: Group10 },
-      { title: "Coins", icon: Group12 },
-      { title: "Refer & Earn", icon: Group13 },
-      { title: "Other Rewards", icon: Group14 },
+      { title: "Cash Balance", icon: money },
+      { title: "Coins", icon: coins },
+      { title: "Refer & Earn", icon: customer },
+      { title: "Other Rewards", icon: trophy },
     ],
     img: Group11,
     id: "earn",

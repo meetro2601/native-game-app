@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import ProfileCard from "../components/ProfileCard";
 import Frame11863 from "../assets/Frame11863.png";
 import Group12 from "../assets/Group12.png";
 import Group13 from "../assets/Group13.png";
-import Group14 from "../assets/Group14.png";
+import Group14 from "../assets/trophy.png";
 import MenuList from "../components/Menu/MenuList";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../context/AuthContext";
 
 const cardData = [
   { title: "Cash Balance", img: Frame11863 },
@@ -16,12 +17,13 @@ const cardData = [
 ];
 
 const ProfileMenu = () => {
+const [auth,setAuth] = useContext(AuthContext)
   return (
     <SafeAreaView style={styles.container}>
       <ProfileCard
         imageSource={require("../assets/Group19.png")}
         imageSource1={require("../assets/mditickdecagram.png")}
-        name="Anurag Gupta"
+        name={auth.user.fullName}
         memberId="A1234Y"
         memberId1="123456"
       />
