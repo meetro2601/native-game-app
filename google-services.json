@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "520861881290",
+    "project_id": "yowzaa-e9115",
+    "storage_bucket": "yowzaa-e9115.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520861881290:android:79f201c877d595b666b533",
+        "android_client_info": {
+          "package_name": "com.gopalrohra.madmoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520861881290-6v23fphsh5cp44trm72hvuutkl40hneq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gopalrohra.madmoney",
+            "certificate_hash": "2c931dd0a5fe3c7961f5c5186f72240c4e3ac092"
+          }
+        },
+        {
+          "client_id": "520861881290-ls1ac79eh1l2j0ejgp73ov0u3emhi2lf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gopalrohra.madmoney",
+            "certificate_hash": "d500978eaa91fa626eeff464d98ee2d520e8bc53"
+          }
+        },
+        {
+          "client_id": "520861881290-8eef9t9uc31gnjg1bjq581oou3md4c07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrKTSjuCuMwRX2fHWK6WQ4LH_1Ubq_b7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520861881290-8eef9t9uc31gnjg1bjq581oou3md4c07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,6 +9,7 @@ import { Profile } from "./screens/Profile";
 import ProfileMenu from "./screens/ProfileMenu";
 import { Rewards } from "./screens/Rewards";
 import { Signup } from "./screens/Signup";
+import SocialLogin from "./screens/SocialLogin";
 import EarnSvgComponent from "./svg/EarnSvg";
 import { EarnWhiteSvg } from "./svg/EarnWhiteSVG";
 import GamesSvgComponent from "./svg/GamesSvg";
@@ -71,6 +72,10 @@ export const StackRoutes = [
   {
     name: StackNames.Signup,
     component: Signup,
+  },
+  {
+    name: StackNames.SocialLogin,
+    component: SocialLogin,
   },
 ];
 

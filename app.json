@@ -3,22 +3,26 @@
     "name": "madmoney",
     "slug": "madmoney",
     "version": "1.0.0",
+    "plugins": ["@react-native-google-signin/google-signin"],
     "orientation": "portrait",
     "icon": "./assets/splash-screen.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-screen.png",
-      "resizeMode": "center",
       "backgroundColor": "#ffffff",
       "imageResizeMode": "cover",
       "imageWidth": 200,
       "imageHeight": 100
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gopalrohra.madmoney"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

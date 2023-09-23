@@ -1,5 +1,5 @@
 export const BottomNames = {
-  Home: "Home ",
+  Home: "Home",
   Rewards: "Rewards",
   Leaderboard: "Leaderboard",
   AllGames: "All Games",
@@ -10,6 +10,7 @@ export const StackNames = {
   Landing: "Landing",
   Login: "Login",
   Signup: "Signup",
+  SocialLogin:"SocialLogin"
 };
 
 export const MainStackNames = {

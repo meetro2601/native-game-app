@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import {
   Text,
   View,
@@ -11,10 +11,13 @@ import {
   Platform,
   UIManager,
 } from "react-native";
+import * as authorize from '@react-native-firebase/auth';
 import { removeUser } from "../../services/StorageService";
 import SubItem from "./SubItem";
 import CloseMenuIcon from "../../assets/closed_menu_item.png";
 import OpenMenuIcon from "../../assets/Vector.png";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { AuthContext } from "../../context/AuthContext";
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -36,6 +39,7 @@ const toggleAnimation = (duration) => {
 
 const MenuItem = ({ listItem }) => {
   const [IsSubItemOpened, setIsSubItemOpened] = useState(false);
+  const [auth, setAuth] = useContext(AuthContext)
 
   const animationController = useRef(new Animated.Value(0)).current;
 
@@ -46,9 +50,28 @@ const MenuItem = ({ listItem }) => {
 
   const isLogout = listItem.id === "logout";
 
+  const signOut = async () => {
+    console.log(auth.user.guid)
+    try {
+      if (auth.user.guid) {
+        await GoogleSignin.signOut()
+        await authorize.firebase.auth().signOut();
+      } 
+      removeUser()
+      // setState({ user: null }); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTimeout(() => {
+        console.log("Signed Out")
+        setAuth({ isAuthenticated: false, isAuthenticating: false, user: {}})
+      }, 2500);
+    }
+  };
+
   const openMenuHandler = () => {
     if (isLogout) {
-      removeUser();
+      signOut()
       return;
     }
 
@@ -78,14 +101,24 @@ const MenuItem = ({ listItem }) => {
         )}
       </TouchableOpacity>
       {IsSubItemOpened && (
+        // <View style={styles.subItemContainer}>
+        //   {
+        //     (listItem.subItems).length > 0 && (listItem.subItems).map((item,index) => {
+        //       return <SubItem key={index} subItem={item} />
+        //     })
+        //   }
+        //   </View>
+        // <View >
+
         <FlatList
           key={"_"}
           numColumns={2}
           data={listItem.subItems}
-          keyExtractor={(item) => item.title}
+          keyExtractor={(item, index) => index}
           renderItem={({ item }) => <SubItem subItem={item} />}
           style={styles.subItemContainer}
         />
+        // </View>
       )}
     </View>
   );
@@ -132,8 +165,18 @@ const styles = StyleSheet.create({
     margin: 12,
     marginTop: 4,
     marginBottom: 20,
-    elevation: 16,
+    padding: 10,
+    // shadowColor:"white",
+    // flex:1,
+    elevation: 10,
     borderRadius: 16,
-    backgroundColor: "#fff",
+    // borderWidth:0.2,
+    shadowColor: "grey",
+    shadowOffset: { width: 0, height: 12 },
+    shadowRadius: 24,
+    // borderColor:"none"
+    backgroundColor: "#FFF",
+    // flexDirection:"row",
+    // flexWrap:"wrap"
   },
 });
