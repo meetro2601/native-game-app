@@ -11,9 +11,11 @@ async function setItem(key, data) {
 async function getItem(key) {
   try {
     const value = await AsyncStorage.getItem(key);
-    return JSON.parse(value);
+    if(value){
+      return JSON.parse(value);
+    }
+    return {user:"",token:""};
   } catch (e) {
-    return null;
   }
 }
 

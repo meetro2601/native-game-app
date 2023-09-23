@@ -9,6 +9,7 @@ import PasswordSvgComponent from "../svg/PasswordSvg";
 import { AuthContext } from "../context/AuthContext";
 import { Back } from "../components/Back";
 import { persistUser } from "../services/StorageService";
+import { profileStyles } from "../styles/Profile";
 
 export function Signup(props) {
   return (
@@ -115,16 +116,16 @@ function Form(props) {
       </View>
       <TouchableOpacity
         onPress={handleSignup}
-        style={[loginStyles.font20, loginStyles.button, loginStyles.buttonPrimary]}
+        style={[loginStyles.font20, loginStyles.button, loginStyles.buttonPrimary,profileStyles.submitBtn]}
         accessibilityRole="button"
       >
-        <Text style={[{ color: "#ffffff" }]}>Sign up</Text>
+        <Text style={[profileStyles.submitBtnText]}>Sign up</Text>
       </TouchableOpacity>
       {/* <Button title="Sign In With Google" onPress={continueWithGoogle} /> */}
-      <View style={[{ flexDirection: "row" }]}>
+      <View style={[{ flexDirection: "row",alignItems:"center" }]}>
         <Text style={[loginStyles.font18, loginStyles.signup, loginStyles.mt30]}>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text style={[loginStyles.signin, loginStyles.mt30]}>Sign in</Text>
+          <Text style={[loginStyles.signin,loginStyles.font18, loginStyles.mt30]}>Sign in</Text>
         </TouchableOpacity>
       </View>
     </View>

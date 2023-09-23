@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+const {width} = Dimensions.get("window")
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,9 +9,9 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   notify: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 28,
+    height: 28,
+    borderRadius: 1000,
     fontSize: 14,
     backgroundColor: "#E22982",
     overflow: "hidden",
@@ -83,7 +85,8 @@ export const styles = StyleSheet.create({
     // flex: 1,
     // gap: 10,
     // marginLeft: 5,
-    height: 220,
+    height: Number(width*0.6),
+    maxHeight:350,
         flex: 1,
   },
   coin: {

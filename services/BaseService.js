@@ -10,7 +10,7 @@ export const makeFetchCall = async (url, accessToken) => {
 }
 
 export const postFetchCall = async (url, method, accessToken, data) => {
-    console.log("Data in postFetchCall: " + JSON.stringify(data))
+    // console.log("Data in postFetchCall: " + JSON.stringify(data))
     let response = await fetch(url, {
         method: method,
         headers: {

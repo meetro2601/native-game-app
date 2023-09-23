@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   ActivityIndicator,
+  KeyboardAvoidingView,
 } from "react-native";
 import { loginStyles } from "../styles/Login";
 import { BackSvg } from "../svg/BackSvg";
@@ -18,6 +19,7 @@ import EmailSvgComponent from "../svg/EmailSvg";
 import PasswordSvgComponent from "../svg/PasswordSvg";
 import { persistUser } from "../services/StorageService";
 import { profileStyles } from "../styles/Profile";
+import { Back } from "../components/Back";
 
 export function Login(props) {
   return (
@@ -32,9 +34,7 @@ export function Login(props) {
 function Header(props) {
   return (
     <View style={[loginStyles.header]}>
-      <TouchableOpacity style={[loginStyles.headerLeft, loginStyles.HeaderLeftButton]}>
-        <BackSvg />
-      </TouchableOpacity>
+      <Back/>
       <View style={[loginStyles.headerMid]} />
       <TouchableOpacity style={[loginStyles.headerRight]} />
     </View>
@@ -95,7 +95,7 @@ function Form(props) {
       } else {
         setErrorMessage(data["message"]);
         setLoading(false);
-        setAuth({ isAuthenticating: false, isAuthenticated: false, user: {} });
+        setAuth({ isAuthenticating: false, isAuthenticated: false, user: {}});
       }
     } catch (error) {
       setErrorMessage("Sorry, unable to login. Please check your email and password");
@@ -106,7 +106,7 @@ function Form(props) {
   };
 
   return (
-    <View style={[loginStyles.form, { marginTop: 20 }]}>
+    <KeyboardAvoidingView style={[loginStyles.form, { marginTop: 20 }]}>
       <ImageBackground style={loginStyles.formLogo} source={require("./../assets/app-logo.png")} />
       <Text style={loginStyles.formTitle}>Login to Your Account</Text>
 
@@ -145,7 +145,7 @@ function Form(props) {
           placeholder="Password"
           secureTextEntry
         />
-        <ImageBackground style={[loginStyles.iconEmail]} />
+        {/* <ImageBackground style={[loginStyles.iconEmail]} /> */}
       </View>
       <TouchableOpacity
         onPress={handleLogin}
@@ -161,12 +161,12 @@ function Form(props) {
       <TouchableOpacity style={[loginStyles.font20, loginStyles.button, loginStyles.mt20, loginStyles.buttonWithoutBG]}>
         <Text style={loginStyles.forgotPassword}>Forgot Password</Text>
       </TouchableOpacity>
-      <View style={[{ flexDirection: "row" }]}>
+      <View style={[{ flexDirection: "row",alignItems:"center" }]}>
         <Text style={[loginStyles.font18, loginStyles.signup, loginStyles.mt30]}>Don't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-          <Text style={[loginStyles.signin, loginStyles.mt30]}>Sign up</Text>
+          <Text style={[loginStyles.signin,loginStyles.font18, loginStyles.mt30]}>Sign up</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

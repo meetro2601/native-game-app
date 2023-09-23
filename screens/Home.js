@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity, StyleSheet, Button, StatusBar } from "react-native";
+import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity, StyleSheet, Button, StatusBar, BackHandler } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { styles } from "../styles/Home";
 import { Header } from "../components/Header";
@@ -12,26 +12,40 @@ import { MadMoneyApp } from "../components/MadMoneyApp";
 export function Home(props) {
   const [data, setData] = useState({ token: "" });
   const [status, setStatus] = useState({});
+  const navigation = useNavigation()
 
   const video = useRef(null);
 
   useEffect(() => {
     getToken().then((res) => {
       console.log("get token");
-      console.log(res);
       if (res !== undefined) {
-        console.log(res);
+        // console.log(res);
+        // console.log(res);
         setData({ token: res });
-        console.log(data);
+        // console.log(data);
       } else {
         console.log("set empty data");
         setData({ token: "" });
       }
     }).catch(err => console.log("home error"));
   }, []);
+
+  console.log(navigation.isFocused())
+  useEffect(() => {
+    const handleBackButton = () => {
+      navigation.isFocused() ? BackHandler.exitApp() :navigation.navigate("Home") 
+      return true 
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    return () => BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+}, []);
+
+
   return (
     <MadMoneyApp>
-        <Header />
+        {/* <Header /> */}
         <View
           style={[
             {
@@ -64,7 +78,7 @@ export function Home(props) {
             >
               <Video
                 ref={video}
-                style={{ alignSelf: "center",height:170,width:"100%"}}
+                style={{ alignSelf: "center",height:170,width:"100%",borderRadius:15}}
                 source={{
                   uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
                 }}
@@ -86,7 +100,7 @@ export function Home(props) {
                 margin: 10,
                 paddingVertical: 18,
                 paddingHorizontal:12,
-                backgroundColor: "#ffffff",
+                backgroundColor: "white",
                 elevation: 12,
                 alignItems: "center",
                 justifyContent: "center",
@@ -152,7 +166,7 @@ export function LaunchGame({ gameUrl, imageUrl, isLocal, last }) {
     <TouchableOpacity
       accessibilityLabel="Launch game"
       accessibilityRole="button"
-      style={styles.bannerGame}
+      style={[styles.bannerGame]}
       onPress={openGame}
     >
       <View

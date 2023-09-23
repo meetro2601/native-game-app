@@ -46,6 +46,7 @@ export const profileStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    // marginBottom:24
   },
   input: {
     width: "100%",
@@ -72,7 +73,7 @@ export const profileStyles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
+    // width: "100%",
     backgroundColor: "#157BF2",
     height: 68,
     marginVertical: 30,
@@ -91,16 +92,16 @@ export const profileStyles = StyleSheet.create({
   submitBtnText: {
     color: "#FFFCFC",
     fontFamily: "Roboto",
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 700,
   },
   button: {
     paddingLeft: 25,
-    paddingRight: 25,
+    // paddingRight: 25,
     borderRadius: 20,
     fontFamily: "Roboto",
     alignItems: "center",
-    width: "100%",
+    // width: "100%",
     height: 60,
     fontWeight: 400,
   },

@@ -5,17 +5,17 @@ const hostUrl = "https://mmservice.smartechy.net";
 
 export async function getToken() {
   const user = await getUser();
-  console.log(user);
+  // console.log(user);
   return user.token;
 }
 
 export async function getCurrentUserGamePoints() {
   const user = await getUser();
-  console.log(JSON.stringify(user));
+  // console.log(JSON.stringify(user));
   if (user) {
-    console.log("Found user in storagem");
+    // console.log("Found personal user in storage");
     const token = user.token;
-    console.log(user);
+    // console.log(user);
     const data = {
       mm_GameId: 0,
       mm_QuizId: 0,
@@ -32,6 +32,7 @@ export async function getCurrentUserGamePoints() {
 
 export async function getAllUsersGamePoints(interval) {
   const user = await getUser();
+  console.log(interval)
 
   if (user) {
     const token = user.token;
@@ -45,6 +46,8 @@ export async function getAllUsersGamePoints(interval) {
       mm_InstanceEnd: interval.end,
     };
     const res = await postFetchCall(hostUrl + "/getgamepoints", "POST", token, data);
+    // const resp = await res.json()
+    // console.log(resp)
     return await res.json();
   } else {
     return { data: [] };

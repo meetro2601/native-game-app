@@ -9,11 +9,11 @@ export function Landing(props) {
   const navigation = useNavigation();
 
   useEffect(() => {
+    // setTimeout(() => {
     if (!auth.isAuthenticating && !auth.isAuthenticated) {
-    //   setTimeout(() => {
-        navigation.navigate("Login");
-    //   }, 1000);
-    }
+        navigation.navigate("SocialLogin");
+      }
+    // }, 4000);
   }, [auth.isAuthenticated, auth.isAuthenticating]);
 
   return (

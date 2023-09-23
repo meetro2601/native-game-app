@@ -107,5 +107,27 @@ export const loginStyles = StyleSheet.create({
     },
     forgotPassword: {
         color: '#157BF2',
+        fontSize:16
+    },
+    socialTitle: {
+        paddingBottom: 20,
+        fontSize: 40,
+        fontWeight: 600
+    },
+    socialContainer:{
+        backgroundColor:"#fafcff",
+        // flex:1,
+        // width:"100%",
+        flexDirection:"row",
+        alignItems:"center",
+        // justifyContent:"space-between",
+        gap:10,
+        borderWidth:0.5,
+        height:65,
+        marginHorizontal:20,
+        // paddingVertical:12,
+        paddingHorizontal:40,
+        borderColor:"#d3cfcf",
+        borderRadius:20
     }
 });

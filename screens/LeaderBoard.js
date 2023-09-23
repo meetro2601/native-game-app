@@ -33,7 +33,7 @@ export function LeaderBoard(props) {
 
   return (
     <MadMoneyApp>
-      <Header />
+      {/* <Header /> */}
       <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
       <UserStage playersList={players} />
       <TopPlayers playersList={players} selectedTab={selectedTab} />
@@ -139,9 +139,10 @@ function WinningRank(props) {
 function getInterval(tab) {
   const d = new Date();
   if (tab === "Today") {
+
     return {
-      start: d.toISOString().slice(0, 10),
-      end: d.toISOString().slice(0, 10),
+      start: new Date(d.setDate(d.getDate() - 1)).toISOString().slice(0, 10),
+      end: new Date().toISOString().slice(0, 10),
     };
   }
 
@@ -162,7 +163,7 @@ function getInterval(tab) {
 
 function TopPlayers(props) {
   const [auth] = useContext(AuthContext)
-  const [rankingList, setrankingList] = useState();
+  const [rankingList, setrankingList] = useState([]);
 
   useEffect(() => {
     const userScore = props?.playersList?.find((obj) => {

@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import { Text, View, TouchableOpacity, StyleSheet, Dimensions, Animated } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Dimensions, Animated} from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BottomNames, MainStackNames, StackNames } from "../utils/enum";
 import { BottomRoutes, MainStackRoutes, StackRoutes } from "../routes";
-import CurvedSvg from "../svg/CurvedSvg";
+import TabShape from "../svg/TabShape";
 
 const { width } = Dimensions.get("window");
-const MARGIN = 2;
-const TAB_BAR_WIDTH = width - 1 * MARGIN;
-const TAB_WIDTH = width / 5;
+const TAB_WIDTH = width / BottomRoutes.length;
 
 const styles = StyleSheet.create({
   animationIcon: {
-    transform: [{ translateX: 0 }, { translateY: -30.5 }],
+    transform: [{ translateX: 0 }, { translateY: -41 }],
     transitionDelay: "0.2s, 350ms",
     justifyContent: "center",
     alignItems: "center",
   },
   slidingTabContainer: {
-    width: TAB_WIDTH,
+    // width: TAB_WIDTH,
     ...StyleSheet.absoluteFillObject,
     backgroundColor: Colors.yellow,
     alignItems: "center",
@@ -31,8 +29,8 @@ const styles = StyleSheet.create({
     borderRadius: 99,
     position: "absolute",
     backgroundColor: "#157BF2",
-    bottom: -12,
-    left: 4,
+    bottom: -13,
+    // left: 4,
     borderWidth: 3,
     borderColor: Colors.white,
   },
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: width,
     bottom: 0,
-    height: 52,
+    // height: 52,
     alignSelf: "center",
     position: "absolute",
     borderRadius: 5,
@@ -87,6 +85,7 @@ export function BottomNavigation(props) {
       screenOptions={{ headerShown: false }}
       style={{ justifyContent: "space-between" }}
       tabBar={(props) => <MyTabBar {...props} />}
+      backBehavior="Home"
     >
       {BottomRoutes.map((route) => (
         <Tab.Screen key={route.name} {...route} />
@@ -101,7 +100,7 @@ const alignIconCenter = (name) => {
   } else if (name === BottomNames.Earn) {
     return { bottom: -2, left: -0.5 };
   } else if (name === BottomNames.Home) {
-    return { bottom: -0.5, left: -0.25 };
+    return { bottom: -0.5, left: -0.5 };
   } else if (name === BottomNames.AllGames) {
     return { bottom: -3, left: 0 };
   } else if (name === BottomNames.Leaderboard) {
@@ -115,12 +114,12 @@ function MyTabBar({ state, descriptors, navigation }) {
 
   const translateTab = (index) => {
     Animated.spring(translateX, {
-      toValue: index * TAB_WIDTH + (TAB_WIDTH - 60) / 2,
+      toValue: index * TAB_WIDTH - TAB_WIDTH*2,
       useNativeDriver: true,
       duration: 2000,
     }).start();
     Animated.spring(translateY, {
-      toValue: -50,
+      toValue: -55,
       useNativeDriver: true,
     }).start();
   };
@@ -131,78 +130,83 @@ function MyTabBar({ state, descriptors, navigation }) {
 
   return (
     <View style={styles.tabBar}>
-      <View style={styles.slidingTabContainer}>
-        <Animated.View style={[styles.slidingTab, { transform: [{ translateX }, { translateY }] }]} />
-      </View>
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label = options.tabBarLabel || options.title || route.name;
+      {/* <View style={styles.slidingTabContainer}> */}
+      <TabShape x={translateX} tab={state.index}></TabShape>
+      <Animated.View style={[styles.slidingTabContainer, { transform: [{ translateX }, { translateY }] }]} >
+        <View style={styles.slidingTab}>
 
-        const isFocused = state.index === index;
+        </View>
+      </Animated.View>
+      {/* </View> */}
+      <View style={{ ...StyleSheet.absoluteFillObject, flexDirection: "row", justifyContent: "space-evenly" }}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label = options.tabBarLabel || options.title || route.name;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true,
-          });
+          const isFocused = state.index === index;
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate({ name: route.name, merge: true });
-          }
-        };
+          const onPress = () => {
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: "tabLongPress",
-            target: route.key,
-          });
-        };
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate({ name: route.name, merge: true });
+            }
+          };
 
-        const BarIcon = options.tabBarIcon.activeIcon;
-        const InActiveIcon = options.tabBarIcon.inActiveIcon;
+          const onLongPress = () => {
+            navigation.emit({
+              type: "tabLongPress",
+              target: route.key,
+            });
+          };
 
-        return (
-          <TouchableOpacity
-            accessibilityRole="button"
-            activeOpacity={1}
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{
-              ...styles.tab,
-              width: isFocused ? TAB_WIDTH : null,
-              backgroundColor: isFocused ? "transparent" : Colors.white,
-            }}
-            key={"tab" + index}
-          >
-            {isFocused && (
-              <CurvedSvg TAB_WIDTH={TAB_WIDTH}>
+          const BarIcon = options.tabBarIcon.activeIcon;
+          const InActiveIcon = options.tabBarIcon.inActiveIcon;
+
+          return (
+            <TouchableOpacity
+              accessibilityRole="button"
+              activeOpacity={1}
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              style={{
+                ...styles.tab,
+                width: TAB_WIDTH,
+                // backgroundColor: isFocused ? "transparent" : Colors.white,
+              }}
+              key={"tab" + index}
+            >
+              {isFocused && (
                 <View style={[styles.animationIcon, alignIconCenter(route.name)]}>
                   <BarIcon />
                 </View>
-              </CurvedSvg>
-            )}
-            {!isFocused && (
-              <React.Fragment>
-                <InActiveIcon />
-                <Text
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isFocused ? "#673ab7" : "#222",
-                    fontSize: 10,
-                  }}
-                >
-                  {label}
-                </Text>
-              </React.Fragment>
-            )}
-          </TouchableOpacity>
-        );
-      })}
+              )}
+              {!isFocused && (
+                <React.Fragment>
+                  <InActiveIcon />
+                  <Text
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: isFocused ? "#673ab7" : "#222",
+                      fontSize: 10,
+                    }}
+                  >
+                    {label}
+                  </Text>
+                </React.Fragment>
+              )}
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 }
