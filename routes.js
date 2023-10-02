@@ -1,5 +1,6 @@
 import { AllGames } from "./screens/AllGames";
 import { Earn } from "./screens/Earn";
+import Coins from "./screens/Earnings&Rewards/Coins";
 import { Game } from "./screens/Game";
 import { Home } from "./screens/Home";
 import { Landing } from "./screens/Landing";
@@ -91,5 +92,9 @@ export const MainStackRoutes = [
   {
     name: MainStackNames.ProfileMenu,
     component: ProfileMenu,
+  },
+  {
+    name: MainStackNames.Coins,
+    component: Coins,
   },
 ];

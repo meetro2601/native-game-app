@@ -18,4 +18,5 @@ export const MainStackNames = {
   Profile: "Profile",
   Main: "Main",
   ProfileMenu: "ProfileMenu",
+  Coins: "Coins",
 };

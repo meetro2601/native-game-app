@@ -1,16 +1,18 @@
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const SubItem = ({ subItem }) => {
+  const navigation = useNavigation()
   return (
-    <View style={styles.subItem}>
+    <TouchableOpacity style={styles.subItem} onPress={()=>navigation.navigate(subItem.title)}>
       <View style={styles.imgContainer}>
       <Image resizeMode="center" style={{width:"100%",height:"100%"}} source={subItem.icon} />
       </View>
       <View style={{flex:3}}>
       <Text style={styles.subTitle} numberOfLines={2} ellipsizeMode="tail">{subItem.title}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
