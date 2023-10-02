@@ -57,24 +57,20 @@ export function Profile(props) {
   const nav = useNavigation()
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUserDetails()
-      if (user) {
-        if (user.usr_UserName != "") {
+      if (auth.user) {
+        if (auth.user.username != "") {
           setisEditable(false)
         }
-        setNickname(user.usr_UserName)
-        setFullName(user.usr_Name)
-        setEmail(user.usr_EmailId)
-        setPhoneNumber({ ...phoneNumber, num: user.usr_MobileNo })
-        setgender(user.prf_Gender)
-        const birth = moment(user.DOB).format("DD/MM/YYYY")
+        setNickname(auth.user.username)
+        setFullName(auth.user.fullName)
+        setEmail(auth.user.email)
+        setPhoneNumber({ ...phoneNumber, num: auth.user.phone })
+        setgender(auth.user.gender)
+        const birth = moment(auth.user.dob).format("DD/MM/YYYY")
         setdob(birth)
       }
-      console.log("user")
-    }
-    fetchUser()
-  }, [])
+      // console.log("user")
+  }, [auth.user])
 
 
   const changeNameHandler = (name) => {
@@ -140,6 +136,13 @@ export function Profile(props) {
         const res = await updateProfile(Profile);
         // console.log(res)
         if (res.message == "success") {
+          const updatedData = await getUserDetails()
+          if(!updatedData.error && !auth.user.socialId){
+            setAuth({ isAuthenticating: false, isAuthenticated: true, user: updatedData.data})
+          }
+          else {
+            setAuth({ isAuthenticating: false, isAuthenticated: true, user: {...updatedData.data,socialId:auth.user.socialId}})
+          }
           nav.navigate("Main")
           setIsSubmitting(false);
         }
@@ -154,7 +157,7 @@ export function Profile(props) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Header />
       <ScrollView contentContainerStyle={[{ justifyContent: "space-evenly", gap: 24, paddingHorizontal: 48 }]}>
         <View style={profileStyles.defaultImg}>
@@ -256,7 +259,7 @@ export function Profile(props) {
           {isSubmitting ? <ActivityIndicator color={"white"} size={"large"} /> : <Text style={profileStyles.submitBtnText}>Continue</Text>}
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

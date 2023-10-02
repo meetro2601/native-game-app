@@ -20,6 +20,7 @@ import PasswordSvgComponent from "../svg/PasswordSvg";
 import { persistUser } from "../services/StorageService";
 import { profileStyles } from "../styles/Profile";
 import { Back } from "../components/Back";
+import { getUserDetails, validateAccount } from "../services/ProfileService";
 
 export function Login(props) {
   return (
@@ -34,7 +35,7 @@ export function Login(props) {
 function Header(props) {
   return (
     <View style={[loginStyles.header]}>
-      <Back/>
+      <Back />
       <View style={[loginStyles.headerMid]} />
       <TouchableOpacity style={[loginStyles.headerRight]} />
     </View>
@@ -53,12 +54,6 @@ function Form(props) {
 
   const handleLogin = async () => {
     setErrorMessage("");
-    // const url = "https://mmservice.smartechy.net/validateaccount";
-    const url = "https://mmservice.smartechy.net/getuserdetail";
-    const payload = {
-      userId: email,
-      Pwd: password,
-    };
     const username = email;
     const passwordis = password;
     const credentials = username + ":" + passwordis;
@@ -66,42 +61,29 @@ function Form(props) {
     const encodedCredentials = Buffer.from(credentials, "utf-8").toString("base64");
     console.log(encodedCredentials);
 
-    const headers = new Headers({
-      "Content-Type": "application/json",
-      Authorization: "Basic " + encodedCredentials,
-      mode: "no-cors",
-    });
-
     try {
       setLoading(true);
-      const response = await fetch(url, {
-        method: "POST",
-        headers: headers,
-        // body: JSON.stringify(payload),
-      });
-      console.log(response.status)
-      const data = await response.json();
-      // console.log(data["message"]);
-      // if (data["message"] == "Success") {
-      if (response.status == 200) {
-        console.log("response is:");
-        // console.log(data);
-        setLoading(false);
-        console.log("success");
-        const user = { name: email, fullName:data.usr_Name };
-        persistUser(user, encodedCredentials).then((auth) =>
-          setAuth({ isAuthenticating: false, isAuthenticated: true, user: user })
-        ).catch(err=> console.log("login error"));
-      } else {
-        setErrorMessage(data["message"]);
-        setLoading(false);
-        setAuth({ isAuthenticating: false, isAuthenticated: false, user: {}});
+      const isValidate = await validateAccount(encodedCredentials)
+      if(isValidate){
+        console.log(isValidate)
+        const userData = await getUserDetails(encodedCredentials)
+        console.log(userData)
+        if (userData.error) { 
+          setErrorMessage(userData.error);
+          setAuth({ isAuthenticating: false, isAuthenticated: false, user: {} });
+        } else {
+          persistUser(encodedCredentials).then((auth) =>
+            setAuth({ isAuthenticating: false, isAuthenticated: true, user: userData.data })
+          ).catch(err => console.log("login error"));
+        }
+      }else{
+        setErrorMessage("Sorry, unable to login. Please check your email and password");
+        setAuth({ isAuthenticating: false, isAuthenticated: false, user: {} });
       }
     } catch (error) {
-      setErrorMessage("Sorry, unable to login. Please check your email and password");
       console.error("Error:", error);
-      setLoading(false);
-      setAuth({ isAuthenticating: false, isAuthenticated: false, user: {} });
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -125,7 +107,7 @@ function Form(props) {
           }}
           onFocus={() => handleFocus("input1")}
           onBlur={handleBlur}
-          left={<TextInput.Icon icon={() => <EmailSvgComponent />} onPress={() => {}} />}
+          left={<TextInput.Icon icon={() => <EmailSvgComponent />} onPress={() => { }} />}
         />
       </View>
       <View style={[loginStyles.formLabel, loginStyles.formLabelIcon]}>
@@ -135,7 +117,7 @@ function Form(props) {
           mode="outlined"
           onChangeText={setPassword}
           theme={{ roundness: 10 }}
-          left={<TextInput.Icon icon={() => <PasswordSvgComponent />} onPress={() => {}} />}
+          left={<TextInput.Icon icon={() => <PasswordSvgComponent />} onPress={() => { }} />}
           outlineStyle={{
             borderWidth: 2,
             borderColor: focusedInput === "input2" ? "rgb(28, 126, 241)" : "#D3CFCF",
@@ -161,10 +143,10 @@ function Form(props) {
       <TouchableOpacity style={[loginStyles.font20, loginStyles.button, loginStyles.mt20, loginStyles.buttonWithoutBG]}>
         <Text style={loginStyles.forgotPassword}>Forgot Password</Text>
       </TouchableOpacity>
-      <View style={[{ flexDirection: "row",alignItems:"center" }]}>
+      <View style={[{ flexDirection: "row", alignItems: "center" }]}>
         <Text style={[loginStyles.font18, loginStyles.signup, loginStyles.mt30]}>Don't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-          <Text style={[loginStyles.signin,loginStyles.font18, loginStyles.mt30]}>Sign up</Text>
+          <Text style={[loginStyles.signin, loginStyles.font18, loginStyles.mt30]}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

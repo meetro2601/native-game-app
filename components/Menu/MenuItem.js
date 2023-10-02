@@ -51,9 +51,9 @@ const MenuItem = ({ listItem }) => {
   const isLogout = listItem.id === "logout";
 
   const signOut = async () => {
-    console.log(auth.user.guid)
+    console.log(auth.user.socialId)
     try {
-      if (auth.user.guid) {
+      if (auth.user.socialId != undefined) {
         await GoogleSignin.signOut()
         await authorize.firebase.auth().signOut();
       } 

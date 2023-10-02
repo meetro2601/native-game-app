@@ -24,8 +24,9 @@ const [auth,setAuth] = useContext(AuthContext)
         imageSource={require("../assets/Group19.png")}
         imageSource1={require("../assets/mditickdecagram.png")}
         name={auth.user.fullName}
-        memberId="A1234Y"
+        memberId={auth.user.memberId}
         memberId1="123456"
+        kyc={auth.user.kycDone}
       />
       <MenuList />
     </SafeAreaView>

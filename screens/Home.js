@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity, StyleSheet, Button, StatusBar, BackHandler } from "react-native";
+import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity, StyleSheet, Button, StatusBar, BackHandler, useWindowDimensions } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { styles } from "../styles/Home";
 import { Header } from "../components/Header";
@@ -20,7 +20,7 @@ export function Home(props) {
     getToken().then((res) => {
       console.log("get token");
       if (res !== undefined) {
-        // console.log(res);
+        console.log(res);
         // console.log(res);
         setData({ token: res });
         // console.log(data);
@@ -31,7 +31,7 @@ export function Home(props) {
     }).catch(err => console.log("home error"));
   }, []);
 
-  console.log(navigation.isFocused())
+  
   useEffect(() => {
     const handleBackButton = () => {
       navigation.isFocused() ? BackHandler.exitApp() :navigation.navigate("Home") 
@@ -157,6 +157,7 @@ export function Home(props) {
 }
 export function LaunchGame({ gameUrl, imageUrl, isLocal, last }) {
   const navigation = useNavigation();
+  const width = useWindowDimensions().width
 
   const openGame = () => {
     navigation.navigate("Game", { gameUrl });
@@ -166,7 +167,7 @@ export function LaunchGame({ gameUrl, imageUrl, isLocal, last }) {
     <TouchableOpacity
       accessibilityLabel="Launch game"
       accessibilityRole="button"
-      style={[styles.bannerGame]}
+      style={[styles.bannerGame,{height:width*0.6}]}
       onPress={openGame}
     >
       <View

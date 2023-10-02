@@ -1,10 +1,11 @@
 import { View, ImageBackground, Text, Image, TouchableOpacity, SafeAreaView } from "react-native";
 import { styles } from "../styles/Home";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import { getCurrentUserGamePoints } from "../services/GameService";
 import { MainStackNames } from "../utils/enum";
 import HamBurger from "../svg/HamBurger";
+import { AuthContext } from "../context/AuthContext";
 
 export function Header(props) {
   return (
@@ -18,10 +19,12 @@ export function Header(props) {
 function HeaderTopBar(props) {
   const navigation = useNavigation();
   const [data, setData] = useState({ sPoints: 0, sCoins: 0, sUserName: "" });
+  const [auth,setAuth] = useContext(AuthContext)
 
   useFocusEffect(
     useCallback(() => {
-      getCurrentUserGamePoints().then((res) => {
+      console.log(auth.user)
+      getCurrentUserGamePoints(auth.user.username).then((res) => {
         // console.log(res)
         const r = res.data[0];
         // console.log("get game points start getting game data", res.data);
@@ -32,7 +35,7 @@ function HeaderTopBar(props) {
           setData({ sPoints: 0, sCoins: 0, sUserName: "" });
         }
       }).catch(err => console.log("header error"));
-    }, [])
+    }, [auth.user.username])
   );
 
   return (

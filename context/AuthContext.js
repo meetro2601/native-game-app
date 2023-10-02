@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { getUser } from "../services/StorageService";
+import { getUserDetails, validateAccount } from "../services/ProfileService";
 
 const initialState = { isAuthenticating: true, isAuthenticated: false, user: {} }
 const url = "https://mmservice.smartechy.net/validateaccount";
@@ -7,33 +8,27 @@ const url = "https://mmservice.smartechy.net/validateaccount";
 export const AuthContext = createContext();
 export function AuthContextProvider(props) {
     const [auth, setAuth] = useState(initialState);
-    
+
     useEffect(() => {
-        // console.log("Auth Cox running")
-        const validateUser = async () => {
-            const { user, token } = await getUser()
-            if(token != "" && user != ""){
-                const headers = new Headers({
-                    "Content-Type": "application/json",
-                Authorization: "Basic " + token,
-                mode: "no-cors",
-            });
-            const response = await fetch(url, {
-                method: "POST",
-                headers: headers,
-                // body: JSON.stringify(payload),
-            });
-            console.log("auth", response.status)
-            const data = await response.json();
-            // console.log(data)
-            if (response.status == 200) {
-                setAuth({ isAuthenticated: true, isAuthenticating: false, user: user })
+        console.log("Auth Cox running")
+        const userCheck = async () => {
+            const { token } = await getUser()
+            if (token != "") {
+                const isValidate = await validateAccount(token)
+                if (isValidate) {
+                    const userData = await getUserDetails(token)
+                    if (userData.error) {
+                        setAuth({ isAuthenticating: false, isAuthenticated: false, user: {} });
+                    } else {
+                        setAuth({ isAuthenticating: false, isAuthenticated: true, user: userData.data })
+                        // setErrorMessage(userData.error);
+                    }
+                } else {
+                    setAuth({ isAuthenticated: false, isAuthenticating: false, user: {} })
+                }
             } else {
-                setAuth({ isAuthenticated: false, isAuthenticating: false, user: {}})
+                setAuth({ isAuthenticated: false, isAuthenticating: false, user: {} })
             }
-        }else{
-            setAuth({ isAuthenticated: false, isAuthenticating: false, user: {}})
-        }
 
         }
         setTimeout(() => {
@@ -42,7 +37,7 @@ export function AuthContextProvider(props) {
             //         // console.log(auth)
             //         if (auth && auth.user) {
             //     }).catch(err => console.log("auth error"))
-            validateUser()
+            userCheck()
         }, 3000);
 
     }, [])

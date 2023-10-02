@@ -7,6 +7,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { Buffer } from "buffer";
 import { persistUser } from '../../services/StorageService';
 import { getToken } from '../../services/GameService';
+import { getUserDetails } from '../../services/ProfileService';
 
 GoogleSignin.configure({
     webClientId: '520861881290-8eef9t9uc31gnjg1bjq581oou3md4c07.apps.googleusercontent.com',
@@ -18,7 +19,7 @@ export default function GoogleSignIn() {
     const [auth, setAuth] = useContext(AuthContext);
 
     const addUserinDatabase = async (userInfo) => {
-        console.log(userInfo)
+        // console.log(userInfo)
         const user = {
             name:userInfo.email,
             fullName: userInfo.displayName,
@@ -39,9 +40,14 @@ export default function GoogleSignIn() {
         });
         const data = await response.json();
         if (data.message == "success" || data.mmError == "Login GUId already Exists") {
-            persistUser(user, encodedToken).then((auth) =>
-                setAuth({ isAuthenticating: false, isAuthenticated: true, user: user})
-            ).catch(err => console.log("login error"));
+            const userData = await getUserDetails(encodedToken)
+            if(userData.error){
+                console.log("get userdetails error")
+            }else{
+                persistUser(encodedToken).then((auth) =>
+                    setAuth({ isAuthenticating: false, isAuthenticated: true, user: {...userData.data,socialId:userInfo.uid}})
+                ).catch(err => console.log("login error"));
+            }
             setInitializing(false)
         } else {
             setInitializing(false)

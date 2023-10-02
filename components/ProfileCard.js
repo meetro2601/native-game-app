@@ -2,10 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MainStackNames } from "../utils/enum";
-import Menu from "../svg/Menu";
+import { MaterialIcons } from '@expo/vector-icons';
 import PencilSvg from "../svg/PencilSvg";
 
-const ProfileCard = ({ imageSource, imageSource1, name, memberId }) => {
+const ProfileCard = ({ imageSource,name, memberId,kyc }) => {
   const navigation = useNavigation();
   
   return (
@@ -16,10 +16,10 @@ const ProfileCard = ({ imageSource, imageSource1, name, memberId }) => {
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.memberId}>Member ID: {memberId}</Text>
-        <Text style={styles.kycCompleted}>
-          <Image source={imageSource1} style={{ width: 17, height: 17 }}></Image>
-          <Text style={styles.kyc}>KYC Completed</Text>
-        </Text>
+        <View style={styles.kycCompleted}>
+        <MaterialIcons name="verified" size={18} color={kyc ? "138808": "grey"} />
+          <Text style={styles.kyc}>{kyc ? "KYC Completed": "KYC Pending"}</Text>
+        </View>
       </View>
       <TouchableOpacity accessibilityRole="button" onPress={() => navigation.navigate(MainStackNames.Profile)}>
         <PencilSvg />
@@ -74,11 +74,13 @@ const styles = StyleSheet.create({
     color: "#959595",
   },
   kycCompleted: {
-    fontSize: 14,
+    flexDirection:"row",
+    gap:5,
+    alignItems:"center"
   },
   kyc: {
     fontSize: 15,
     fontWeight: "bold",
-    marginBottom: 4,
+    // marginBottom: 4,
   },
 });

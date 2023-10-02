@@ -9,17 +9,16 @@ export async function getToken() {
   return user.token;
 }
 
-export async function getCurrentUserGamePoints() {
-  const user = await getUser();
+export async function getCurrentUserGamePoints(username) {
+  const {token} = await getUser();
   // console.log(JSON.stringify(user));
-  if (user) {
+  if (token) {
     // console.log("Found personal user in storage");
-    const token = user.token;
-    // console.log(user);
+    // console.log(username);
     const data = {
       mm_GameId: 0,
       mm_QuizId: 0,
-      mm_UserName: user.user.name,
+      mm_UserName: username,
       //mm_UserName: "powergirl",
       mm_RecordCount: 10,
       //   mm_InstanceStart: "2022-01-01",
@@ -30,13 +29,33 @@ export async function getCurrentUserGamePoints() {
   }
 }
 
+export async function getUserGameWisePoints(username) {
+  const {token} = await getUser();
+  // console.log(JSON.stringify(user));
+  if (token) {
+    // console.log("Found personal user in storage");
+    // console.log(username);
+    const data = {
+      mm_GameId: 0,
+      mm_QuizId: 0,
+      mm_UserName: username,
+      //mm_UserName: "powergirl",
+      mm_RecordCount: 10,
+      //   mm_InstanceStart: "2022-01-01",
+      //   mm_InstanceEnd: "2023-07-31",
+    };
+    const res = await postFetchCall(hostUrl + "/getgamewisepoints", "POST", token, data);
+    return await res.json();
+  }
+}
+
 export async function getAllUsersGamePoints(interval) {
   const user = await getUser();
-  console.log(interval)
+  // console.log(interval)
 
   if (user) {
     const token = user.token;
-    console.log(token, "token")
+    // console.log(token, "token")
     const data = {
       mm_GameId: 0,
       mm_QuizId: 0,

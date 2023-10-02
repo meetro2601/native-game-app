@@ -14,7 +14,7 @@ async function getItem(key) {
     if(value){
       return JSON.parse(value);
     }
-    return {user:"",token:""};
+    return {token:""};
   } catch (e) {
   }
 }
@@ -28,8 +28,8 @@ async function removeItem(key) {
   }
 }
 
-export async function persistUser(user, token) {
-  await setItem("auth", { user: user, token: token });
+export async function persistUser(token) {
+  await setItem("auth", { token: token });
 }
 export async function getUser() {
   //return {user: {name: "powergirl"}, token: 'YWRtaW46YXNk'}

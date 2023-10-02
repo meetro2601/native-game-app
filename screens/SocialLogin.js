@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 import { MadMoneyApp } from '../components/MadMoneyApp'
 import { loginStyles } from '../styles/Login'
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ function SocialLogin() {
 
     return (
         // <MadMoneyApp>
+        <SafeAreaView style={{backgroundColor:"white",flex:1}}>
             <ScrollView contentContainerStyle={[loginStyles.p15, { alignItems: "center",backgroundColor:"white" }]}>
                 <Image source={require("../assets/social.png")} />
                 <Text style={[loginStyles.socialTitle]}>Let’s you in</Text>
@@ -46,6 +47,7 @@ function SocialLogin() {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+            </SafeAreaView>
         // </MadMoneyApp>
     )
 }
