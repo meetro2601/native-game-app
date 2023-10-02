@@ -75,11 +75,10 @@ export function Rewards(props) {
     }, [rewardsList])
 
 
-    return <>
-        {/* <SafeAreaView style={{ flex: 1,backgroundColor:"white" }}> */}
+    return <SafeAreaView style={{ flex: 1,backgroundColor:"white" }}>
 
         <Header />
-        <ScrollView contentContainerStyle={{ backgroundColor: "white", minHeight: "100%", flexDirection: "row", justifyContent: "space-between", gap: 12, paddingHorizontal: 20, paddingBottom: 70 }}>
+        <ScrollView contentContainerStyle={{ flexDirection: "row", justifyContent: "space-between", gap: 12, paddingHorizontal: 20, paddingBottom: 70 }}>
             <View style={{ flex: 1, gap: 8, }}>
                 {
                     col1List && col1List.map((item, index) => {
@@ -125,8 +124,8 @@ export function Rewards(props) {
                 }
             </View>
         </ScrollView>
-    </>
-    {/* </SafeAreaView> */ }
+        </SafeAreaView> 
+    // </>
 }
 
 function Header(props) {

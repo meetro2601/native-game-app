@@ -85,8 +85,9 @@ export const styles = StyleSheet.create({
     // flex: 1,
     // gap: 10,
     // marginLeft: 5,
-    height: Number(width*0.6),
+    // height: 220,
     maxHeight:350,
+    // flexBasis:"49%"
         flex: 1,
   },
   coin: {

@@ -12,36 +12,37 @@ export const leaderBoardStyles = StyleSheet.create({
     tabs: {
         //marginTop: 5,
         marginBottom: 20,
-        marginHorizontal: 12,
+        // marginHorizontal: 12,
         alignContent: "center",
         justifyContent: "space-evenly",
         flexDirection: "row",
-        rowGap: 0,
-        columnGap: 15,
+        gap:15,
         padding: 15,
-        flex: 1
+        flexGrow:1
     },
     tabButton: {
         justifyContent: "center",
         alignItems: "center",
         flex: 1,
+        // minWidth:80,
         borderRadius: 10,
         height: 45,
         borderColor: '#CBCBCB',
         backgroundColor: '#ffffff',
         borderWidth: 1,
         transition: 'all 0.2s ease-in-out',
-        marginRight: 5
+        // marginRight: 5
     },
     tabButtonActive: {
         justifyContent: "center",
         alignItems: "center",
         flex: 1,
+        //  minWidth:80,
         borderRadius: 10,
         height: 45,
         borderTopColor: '#157BF2',
-        borderColor: "white",
-        backgroundColor: '#ffffff',
+        borderColor: "#fff",
+        backgroundColor:"#ffffff",
         borderTopWidth: 3,
         shadowColor: "black",
         shadowOffset: { width: 0, height: 6 },
@@ -49,7 +50,7 @@ export const leaderBoardStyles = StyleSheet.create({
         shadowRadius: 12,
         elevation: 8,
         transition: 'all 0.2s ease-in-out',
-        marginRight: 5
+        // marginRight: 5
     },
     tabButtonText: {
         fontFamily: "Mulish",

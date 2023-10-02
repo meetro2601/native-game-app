@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import { Text, View, TouchableOpacity, StyleSheet, Dimensions, Animated} from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Animated, useWindowDimensions} from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BottomNames, MainStackNames, StackNames } from "../utils/enum";
 import { BottomRoutes, MainStackRoutes, StackRoutes } from "../routes";
 import TabShape from "../svg/TabShape";
 
-const { width } = Dimensions.get("window");
-const TAB_WIDTH = width / BottomRoutes.length;
 
 const styles = StyleSheet.create({
   animationIcon: {
@@ -35,8 +33,9 @@ const styles = StyleSheet.create({
     borderColor: Colors.white,
   },
   tabBar: {
-    flexDirection: "row",
-    width: width,
+    // flexDirection: "row",
+    // flex:1,
+    // width: width,
     bottom: 0,
     // height: 52,
     alignSelf: "center",
@@ -111,6 +110,8 @@ const alignIconCenter = (name) => {
 function MyTabBar({ state, descriptors, navigation }) {
   const [translateX] = useState(new Animated.Value(0));
   const [translateY] = useState(new Animated.Value(0));
+  const width = useWindowDimensions().width
+  const TAB_WIDTH = width / BottomRoutes.length;
 
   const translateTab = (index) => {
     Animated.spring(translateX, {
@@ -129,7 +130,7 @@ function MyTabBar({ state, descriptors, navigation }) {
   }, [state.index]);
 
   return (
-    <View style={styles.tabBar}>
+    <View style={[styles.tabBar,{width:width}]}>
       {/* <View style={styles.slidingTabContainer}> */}
       <TabShape x={translateX} tab={state.index}></TabShape>
       <Animated.View style={[styles.slidingTabContainer, { transform: [{ translateX }, { translateY }] }]} >

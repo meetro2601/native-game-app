@@ -1,6 +1,5 @@
-import { View, Pressable, Text, Image, ImageBackground, TouchableHighlight } from "react-native";
+import { View, Pressable, Text, Image, ImageBackground, TouchableHighlight, useWindowDimensions } from "react-native";
 import { Header } from "../components/Header";
-import { leaderBoardStyles } from "../styles/LeaderBoard";
 import { LinearGradient } from "expo-linear-gradient";
 import CrownSvgComponent from "../svg/CrownSvg";
 import { MadMoneyApp } from "../components/MadMoneyApp";
@@ -8,11 +7,18 @@ import { useContext, useEffect, useState } from "react";
 import { getAllUsersGamePoints } from "../services/GameService";
 import { AuthContext } from "../context/AuthContext";
 import { Shadow } from "react-native-shadow-2";
+import { leaderBoardStyles } from "../styles/LeaderBoard";
+import FilterTabs from "../components/FilterTabs";
+// import FilterTabs from "../components/FilterTabs";
 
 export function LeaderBoard(props) {
   const tabs = ["Today", "Week", "Month"];
   const [selectedTab, setSelectedTab] = useState("Today")
   const [players, setPlayers] = useState([]);
+
+  // const handleSelect = (value)=>{
+  //   setSelectedTab(value)
+  // }
 
   useEffect(() => {
     const interval = getInterval(selectedTab);
@@ -34,32 +40,33 @@ export function LeaderBoard(props) {
   return (
     <MadMoneyApp>
       {/* <Header /> */}
-      <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
+      <FilterTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs}/>
+      {/* <Tabs  /> */}
       <UserStage playersList={players} />
       <TopPlayers playersList={players} selectedTab={selectedTab} />
     </MadMoneyApp>
   );
 }
 
-function Tabs(props) {
-  return (
-    <View style={leaderBoardStyles.tabs}>
-      {props.tabs.map((tab, index) => (
-        <Tab text={tab} selectedTab={props.selectedTab} setSelectedTab={props.setSelectedTab} key={index} />
-      ))}
-    </View>
-  );
-}
+// function Tabs(props) {
+//   return (
+//     <View style={leaderBoardStyles.tabs}>
+//       {props.tabs.map((tab, index) => (
+//         <Tab text={tab} selectedTab={props.selectedTab} setSelectedTab={props.setSelectedTab} key={index} />
+//       ))}
+//     </View>
+//   );
+// }
 
-function Tab(props) {
-  const s = props.text === props.selectedTab ? leaderBoardStyles.tabButtonActive : leaderBoardStyles.tabButton;
+// function Tab(props) {
+//   const s = props.text === props.selectedTab ? leaderBoardStyles.tabButtonActive : leaderBoardStyles.tabButton;
 
-  return (
-    <Pressable style={s} onPress={() => props.setSelectedTab(props.text)}>
-      <Text style={[leaderBoardStyles.tabButtonText, props.text === props.selectedTab && leaderBoardStyles.btnActive]}>{props.text}</Text>
-    </Pressable>
-  );
-}
+//   return (
+//     <Pressable style={s} onPress={() => props.setSelectedTab(props.text)}>
+//       <Text style={[leaderBoardStyles.tabButtonText, props.text === props.selectedTab && leaderBoardStyles.btnActive]}>{props.text}</Text>
+//     </Pressable>
+//   );
+// }
 
 function UserStage(props) {
   return (
