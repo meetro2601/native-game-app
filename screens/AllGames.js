@@ -7,11 +7,13 @@ import ZombieGame from "../assets/games/zombie.png";
 import { MadMoneyApp } from "../components/MadMoneyApp";
 import { Header } from "../components/Header";
 import FilterTabs from "../components/FilterTabs";
+import { gamesList } from "../utils/gamesList";
 
 export function AllGames(props) {
     const tabs = ["Single User", "Multi User"];
     // const tabs = ["Single User", "Multi User", "USER 1", "USER 2", "USER 3", "USER 4", "USER 5"];
     const [selectedTab, setSelectedTab] = useState("Single User")
+    const [list, setlist] = useState([])
     const [data, setData] = useState({ token: "" });
 
     useEffect(() => {
@@ -23,6 +25,14 @@ export function AllGames(props) {
         }
         fetch()
     }, [])
+
+    useEffect(() => {
+        if (selectedTab == "Single User") {
+            setlist(gamesList)
+        } else {
+            setlist([])
+        }
+    }, [selectedTab, gamesList])
 
     return <MadMoneyApp>
         {/* <Header/> */}
@@ -36,64 +46,33 @@ export function AllGames(props) {
                 backgroundColor: "#ffffff",
                 alignItems: "center",
                 justifyContent: "center",
-                // flex: 1,
+                flex: 1,
+                flexDirection: "row",
+                flexWrap: "wrap",
                 marginTop: -5,
                 marginBottom: 30,
             }}
         >
-            <View
-                style={{ flex: 1, flexDirection: "row", justifyContent: "center", gap: 12, marginTop: 0 }}
-            >
-                <LaunchGame
-                    gameUrl={"https://mmweb.smartechy.net/games/5?ptoken=" + data.token}
-                    imageUrl="https://mmweb.smartechy.net//Imgs/gm_5.png"
-                />
-                <LaunchGame
-                    last
-                    gameUrl={"https://mmweb.smartechy.net/games/3?ptoken=" + data.token}
-                    imageUrl="https://mmweb.smartechy.net//Imgs/gm_3.png"
-                />
-            </View>
-            <View
-                style={{
-                    flex: 1, flexDirection: "row", justifyContent: "center", gap: 12, marginTop: 12
-                }}
-            >
-                <LaunchGame
-                    gameUrl={"https://mmweb.smartechy.net/games/4?ptoken=" + data.token}
-                    imageUrl="https://mmweb.smartechy.net//Imgs/gm_4.png"
-                />
-                <LaunchGame
-                    last
-                    gameUrl={"https://mmweb.smartechy.net/games/2?ptoken=" + data.token}
-                    imageUrl="https://mmweb.smartechy.net//Imgs/gm_2.png"
-                />
-            </View>
-            <View
-                style={{
-                    flex: 1, flexDirection: "row", justifyContent: "center", gap: 12, marginTop: 12
-                }}
-            >
-                <LaunchGame
-                    gameUrl={"https://mmweb.smartechy.net/games/99?ptoken=" + data.token}
-                    imageUrl={ZombieGame}
-                    isLocal
-                />
-                <LaunchGame last gameUrl="http://game.vcreation.xyz/game2" imageUrl={RaymanGame} isLocal />
-            </View>
-            <View
-                style={{ flex: 1, flexDirection: "row", justifyContent: "center", gap: 12, marginTop: 12 }}
-            >
-                <LaunchGame
-                    gameUrl={"https://mmweb.smartechy.net/games/5?ptoken=" + data.token}
-                    imageUrl="https://mmweb.smartechy.net//Imgs/gm_5.png"
-                />
+            {
+                list.length > 0 && gamesList.map((item, index) => {
+                    return <LaunchGame key={index} isLocal={index >= gamesList.length - 2 ? true : false}
+                        gameUrl={item.game + data.token}
+                        imageUrl={item.img}
+                    />
+                })
+            }
+
+            {list.length > 0 && <> 
+            <LaunchGame
+                gameUrl={"https://mmweb.smartechy.net/games/5?ptoken=" + data.token}
+                imageUrl="https://mmweb.smartechy.net//Imgs/gm_5.png"
+            />
                 <LaunchGame
                     last
                     gameUrl={"https://mmweb.smartechy.net/games/3?ptoken=" + data.token}
                     imageUrl="https://mmweb.smartechy.net//Imgs/gm_3.png"
                 />
-            </View>
+            </>}
         </View>
     </MadMoneyApp>
 }

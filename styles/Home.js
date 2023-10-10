@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-const {width} = Dimensions.get("window")
+const { width } = Dimensions.get("window")
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   notify: {
-    width: 28,
+    minWidth: 28,
     height: 28,
     borderRadius: 1000,
     fontSize: 14,
@@ -86,9 +86,12 @@ export const styles = StyleSheet.create({
     // gap: 10,
     // marginLeft: 5,
     // height: 220,
-    maxHeight:350,
-    // flexBasis:"49%"
-        flex: 1,
+    maxHeight: 350,
+    // width:"48%",
+    marginHorizontal: "1.5%",
+    marginBottom: "2.5%",
+    flexBasis: "47%",
+    flex: 1,
   },
   coin: {
     flexDirection: "row",
@@ -100,10 +103,11 @@ export const styles = StyleSheet.create({
     borderColor: "#A4CDFE",
     borderRadius: 10,
     backgroundColor: "#CFE5FF",
+    backgroundColor: "#CFE5FF",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
-    elevation:4,
+    elevation: 4,
     alignItems: "center",
     justifyContent: "center",
     position: "relative",

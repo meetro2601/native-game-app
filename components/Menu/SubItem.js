@@ -21,6 +21,7 @@ export default SubItem;
 const styles = StyleSheet.create({
   subItem: {
     flexDirection: "row",
+    alignItems:"center",
     flex: 1,
     margin:8
   },
@@ -32,8 +33,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   imgContainer:{
-    borderWidth:1,
-    borderColor:"#d3cfcf",
+    // borderWidth:1,
+    // borderColor:"#d3cfcf",
     borderRadius:5,
     backgroundColor:"#fafcff",
     // flex:1,

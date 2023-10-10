@@ -10,8 +10,8 @@ const ProfileCard = ({ imageSource,name, memberId,kyc }) => {
   
   return (
     <View style={styles.card}>
-      <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} />
+      <View style={[styles.imageContainer, kyc && styles.imgVerified]}>
+        <Image  source={imageSource} style={[styles.image]} />
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{name}</Text>
@@ -33,6 +33,7 @@ export default ProfileCard;
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
+    height:125,
     // borderRadius: 8,
     paddingHorizontal: 20,
     paddingVertical: 12,
@@ -50,27 +51,38 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 40,
   },
   imageContainer: {
-    width: 100,
-    height: 100,
-    overflow: "hidden",
+    width: 80,
+    height: 80,
+    // overflow: "hidden",
     marginRight: 16,
+    borderWidth:6,
+    borderColor:"#157bf2",
+    borderRadius:50
   },
   image: {
     width: "100%",
     height: "100%",
     resizeMode: "cover",
+    transform:[{scale:1.25},{translateY:0}],
+    left:-0.3,
+    top:2.75
+  },
+  imgVerified:{
+    borderColor:"#138808"
   },
   detailsContainer: {
     flex: 1, // Take remaining space
+    gap:4,
+    justifyContent:"center"
   },
   name: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 4,
+    // marginBottom: 4,
   },
   memberId: {
     fontSize: 14,
-    marginBottom: 4,
+    // marginBottom: 4,
     color: "#959595",
   },
   kycCompleted: {
@@ -79,8 +91,8 @@ const styles = StyleSheet.create({
     alignItems:"center"
   },
   kyc: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontWeight: 600,
     // marginBottom: 4,
   },
 });

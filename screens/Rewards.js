@@ -132,12 +132,13 @@ function Header(props) {
     const navigation = useNavigation()
     return (
         <View style={[{ zIndex: 50, backgroundColor: "white", paddingHorizontal: 20, height: 50, flexDirection: "row", alignItems: "center", gap: 15 }]}>
-            <TouchableOpacity style={[loginStyles.headerLeft, loginStyles.HeaderLeftButton]}
+            {/* <TouchableOpacity style={[loginStyles.headerLeft, loginStyles.HeaderLeftButton]}
                 accessibilityLabel="Back"
                 accessibilityRole="button"
                 onPress={() => navigation.navigate("Home")}>
                 <BackSvg />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Back/>
             <Text style={[profileStyles.headerMid, profileStyles.font20]}>Coupon</Text>
             {/* <TouchableOpacity style={[profileStyles.headerRight]} /> */}
         </View>

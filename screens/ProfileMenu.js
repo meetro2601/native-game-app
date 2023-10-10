@@ -21,7 +21,7 @@ const [auth,setAuth] = useContext(AuthContext)
   return (
     <SafeAreaView style={styles.container}>
       <ProfileCard
-        imageSource={require("../assets/Group19.png")}
+        imageSource={require("../assets/user1.png")}
         imageSource1={require("../assets/mditickdecagram.png")}
         name={auth.user.fullName}
         memberId={auth.user.memberId}
