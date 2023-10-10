@@ -45,7 +45,7 @@ export default function GoogleSignIn() {
                 console.log("get userdetails error")
             }else{
                 persistUser(encodedToken).then((auth) =>
-                    setAuth({ isAuthenticating: false, isAuthenticated: true, user: {...userData.data,socialId:userInfo.uid}})
+                    setAuth({ isAuthenticating: false, isAuthenticated: true, user: {...userData.data,socialId:userInfo.uid,socialProvider:"Google"}})
                 ).catch(err => console.log("login error"));
             }
             setInitializing(false)

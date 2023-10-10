@@ -18,6 +18,7 @@ import CloseMenuIcon from "../../assets/closed_menu_item.png";
 import OpenMenuIcon from "../../assets/Vector.png";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { AuthContext } from "../../context/AuthContext";
+import { LoginManager } from "react-native-fbsdk-next";
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -54,7 +55,11 @@ const MenuItem = ({ listItem }) => {
     console.log(auth.user.socialId)
     try {
       if (auth.user.socialId != undefined) {
-        await GoogleSignin.signOut()
+        if(auth.user.socialProvider == "Google"){
+          await GoogleSignin.signOut()
+        }else if(auth.user.socialProvider == "facebook"){
+          LoginManager.logOut()
+        }
         await authorize.firebase.auth().signOut();
       } 
       removeUser()

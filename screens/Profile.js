@@ -67,9 +67,11 @@ export function Profile(props) {
         setPhoneNumber({ ...phoneNumber, num: auth.user.phone })
         setgender(auth.user.gender)
         const birth = moment(auth.user.dob).format("DD/MM/YYYY")
-        setdob(birth)
+        console.log(birth)
+        if(birth != "Invalid date"){
+          setdob(birth)
+        }
       }
-      // console.log("user")
   }, [auth.user])
 
 
@@ -141,7 +143,7 @@ export function Profile(props) {
             setAuth({ isAuthenticating: false, isAuthenticated: true, user: updatedData.data})
           }
           else {
-            setAuth({ isAuthenticating: false, isAuthenticated: true, user: {...updatedData.data,socialId:auth.user.socialId}})
+            setAuth({ isAuthenticating: false, isAuthenticated: true, user: {...updatedData.data,socialId:auth.user.socialId,socialProvider:auth.user.socialProvider}})
           }
           nav.navigate("Main")
           setIsSubmitting(false);

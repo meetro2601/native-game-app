@@ -3,7 +3,15 @@
     "name": "madmoney",
     "slug": "madmoney",
     "version": "1.0.0",
-    "plugins": ["@react-native-google-signin/google-signin"],
+    "plugins": ["@react-native-google-signin/google-signin",
+    [
+      "react-native-fbsdk-next",
+      {
+        "appID": "6630261087017653",
+        "clientToken": "ac2bcacf1ae27295c91120795700ca9a",
+        "displayName": "Yowzaa"
+      }
+    ]],
     "orientation": "portrait",
     "icon": "./assets/splash-screen.png",
     "userInterfaceStyle": "light",

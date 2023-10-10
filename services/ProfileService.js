@@ -41,12 +41,13 @@ export async function getUserDetails(usertoken) {
     // const res = await postFetchCall(hostUrl + "/updateProfile", "POST", token, data);
     // if(response.status == 200){
     const userInfo = await response.json();
+    
     const userData = {
       fullName: userInfo.usr_Name || "",
       username: userInfo.usr_UserName || "",
       email: userInfo.usr_EmailId || "",
       phone: userInfo.usr_MobileNo || "",
-      dob: userInfo.DOB || "",
+      dob: userInfo.DOB != "1900-01-01" ? userInfo.DOB : "",
       gender: userInfo.prf_Gender || false,
       memberId: userInfo.uniqueid || "",
       kycDone: (userInfo.usr_PAN != "" || userInfo.usr_AadhaarNo != "") ? true : false

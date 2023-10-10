@@ -44,10 +44,9 @@ function BootProtectedScreens() {
   //console.log(JSON.stringify(game))
   return (
     <>
-      {!game.gameMode && <NavigationContainer>
+      <NavigationContainer>
         <MainNavigation />
-      </NavigationContainer>}
-      {game.gameMode && <Game />}
+      </NavigationContainer>
     </>
   );
 }

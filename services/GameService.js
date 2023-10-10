@@ -20,7 +20,7 @@ export async function getCurrentUserGamePoints(username) {
       mm_QuizId: 0,
       mm_UserName: username,
       //mm_UserName: "powergirl",
-      mm_RecordCount: 10,
+      mm_RecordCount: 20,
       //   mm_InstanceStart: "2022-01-01",
       //   mm_InstanceEnd: "2023-07-31",
     };
@@ -40,7 +40,7 @@ export async function getUserGameWisePoints(username) {
       mm_QuizId: 0,
       mm_UserName: username,
       //mm_UserName: "powergirl",
-      mm_RecordCount: 10,
+      mm_RecordCount: 20,
       //   mm_InstanceStart: "2022-01-01",
       //   mm_InstanceEnd: "2023-07-31",
     };

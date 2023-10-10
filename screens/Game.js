@@ -4,6 +4,8 @@ import WebView from "react-native-webview";
 import { GameContext } from "../context/GameContext";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Back } from "../components/Back";
+import { AuthContext } from "../context/AuthContext";
+import { getCurrentUserGamePoints } from "../services/GameService";
 
 // export function OldGame(props) {
 //   const [game, setGame] = useContext(GameContext);
@@ -24,8 +26,26 @@ import { Back } from "../components/Back";
 //   return <WebView source={{ uri: game.gameUrl }} style={{ flex: 1 }} />;
 // }
 export function Game(props) {
-  const navigation = useNavigation();
+  const [auth] = useContext(AuthContext)
+  const [game, setGame] = useContext(GameContext);
   const route = useRoute();
-  
-  return [<Back key={1} />, <WebView source={{ uri: route.params.gameUrl }} style={{ flex: 1 }} key={2} />];
+  const navigation = useNavigation();
+
+  const getPoints = () => {
+    // if(game.gameMode){
+    getCurrentUserGamePoints(auth.user.username).then((res) => {
+      const userData = res?.data?.find((item) => item.sUserName == auth.user.fullName)
+      if (userData !== undefined) {
+        setGame({ ...game, totalCoins: userData.sCoins, totalPoints: userData.sPoints })
+      } else {
+        setGame(game)
+        console.log("set empty data");
+      }
+    }).catch(err => console.log("Back button error"));
+    // } 
+    navigation.navigate("Home")
+  }
+
+
+  return [<Back key={1} getPoints={getPoints} />, <WebView source={{ uri: route.params.gameUrl }} style={{ flex: 1 }} key={2} />];
 }

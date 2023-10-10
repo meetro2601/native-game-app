@@ -7,6 +7,7 @@ import { profileStyles } from '../styles/Profile';
 import { useNavigation } from '@react-navigation/native';
 import GoogleSignIn from '../components/Social/Google';
 import { ScrollView } from 'react-native-gesture-handler';
+import FacebookSignIn from '../components/Social/Facebook';
 
 function SocialLogin() {
     const navigation = useNavigation();
@@ -18,12 +19,7 @@ function SocialLogin() {
                 <Image source={require("../assets/social.png")} />
                 <Text style={[loginStyles.socialTitle]}>Let’s you in</Text>
                 <View style={{ flex: 1, gap: 20, marginBottom: 20 }}>
-                    <TouchableOpacity style={[loginStyles.socialContainer]}>
-                        <View style={{ width: "20%" }}>
-                            <FontAwesome5 name="facebook" size={35} color="#157bf2" />
-                        </View>
-                        <Text style={{ fontSize: 18, fontWeight: 500 }}>Continue with facebook</Text>
-                    </TouchableOpacity>
+                    <FacebookSignIn/>
                     <GoogleSignIn/>
                     <TouchableOpacity style={[loginStyles.socialContainer]}>
                         <View style={{ width: "20%" }}>
