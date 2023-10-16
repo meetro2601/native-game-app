@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { loginStyles } from '../../styles/Login'
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -55,6 +55,7 @@ const FacebookSignIn = () => {
 
     const onFacebookButtonPress = async () => {
         // Attempt login with permissions
+        setInitializing(true)
         try {
             LoginManager.logOut()
             
@@ -81,16 +82,20 @@ const FacebookSignIn = () => {
                 addUserinDatabase(res.additionalUserInfo.profile)
             }).catch(err => console.log("Error while signing in"));;
         } catch (error) {
+            setInitializing(false)
             console.log(error,"err")
         }
     }
 
     return (
         <TouchableOpacity onPress={() => onFacebookButtonPress()} style={[loginStyles.socialContainer]}>
-            <View style={{ width: "20%" }}>
-                <FontAwesome5 name="facebook" size={35} color="#157bf2" />
-            </View>
-            <Text style={{ fontSize: 18, fontWeight: 500 }}>Continue with facebook</Text>
+            {initializing ? <ActivityIndicator size={30} style={{ width: "100%" }} /> :
+            <>
+                <View style={{ width: "20%" }}>
+                    <FontAwesome5 name="facebook" size={35} color="#157bf2" />
+                </View>
+                <Text style={{ fontSize: 18, fontWeight: 500 }}>Continue with facebook</Text>
+            </>}
         </TouchableOpacity>
     )
 }

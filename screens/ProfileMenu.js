@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, StyleSheet, Text } from "react-native";
 import ProfileCard from "../components/ProfileCard";
 import Frame11863 from "../assets/Frame11863.png";
 import Group12 from "../assets/Group12.png";
@@ -18,8 +18,18 @@ const cardData = [
 
 const ProfileMenu = () => {
 const [auth,setAuth] = useContext(AuthContext)
+const [showLayer, setshowLayer] = useState(false)
+
+const handleLayer = ()=>{
+  setshowLayer(!showLayer)
+}
+
   return (
     <SafeAreaView style={styles.container}>
+
+      {showLayer && <View style={styles.layer}>
+        <Text style={{color:"white", fontSize:30,fontWeight:"600"}}>Logging Out...</Text>
+      </View>}
       <ProfileCard
         imageSource={require("../assets/user1.png")}
         imageSource1={require("../assets/mditickdecagram.png")}
@@ -27,8 +37,8 @@ const [auth,setAuth] = useContext(AuthContext)
         memberId={auth.user.memberId}
         memberId1="123456"
         kyc={auth.user.kycDone}
-      />
-      <MenuList />
+        />
+      <MenuList handleLayer={handleLayer}/>
     </SafeAreaView>
   );
 };
@@ -40,4 +50,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
+  layer:{
+    backgroundColor:"#0000005a",
+    position:"absolute",
+    zIndex:100,
+    top:0,
+    bottom:0,
+    right:0,
+    left:0,
+    justifyContent:"center",
+    alignItems:"center"
+  }
 });

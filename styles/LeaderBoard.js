@@ -67,6 +67,7 @@ export const leaderBoardStyles = StyleSheet.create({
         flexDirection: "row",
         //flexWrap: "wrap",
         // borderWidth: 2,
+        marginBottom:20,
         // height: 220,
         // bottom:20,
         flex: 1,
@@ -158,7 +159,7 @@ export const leaderBoardStyles = StyleSheet.create({
     crown: {
         alignSelf: 'center',
         position: "relative",
-        top: -40
+        top: -25
     },
     rankText: {
         lineHeight: 30,
@@ -206,7 +207,8 @@ export const leaderBoardStyles = StyleSheet.create({
         shadowOffset: { width: 4, height: 4 },
         shadowRadius: 12,
         // backgroundColor: "red",
-        marginVertical: 50,
+        // marginTop: 20,
+        marginBottom:40,
         // width: "100%",
         flex:1,
         // elevation:1,

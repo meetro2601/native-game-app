@@ -42,13 +42,19 @@ const MENU_ITEMS = [
   },
 ];
 
-const MenuList = () => {
+const MenuList = ({handleLayer}) => {
   return (
     <SafeAreaView style={{ marginTop: 24 }}>
       <FlatList
         data={MENU_ITEMS}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <MenuItem listItem={item} />}
+        renderItem={({ item }) => {
+          if(item.id == "logout"){
+            return <MenuItem handleLayer={handleLayer} listItem={item} />
+          } else{
+            return <MenuItem listItem={item} />
+          }   
+          }}
       />
     </SafeAreaView>
   );

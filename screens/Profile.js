@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { View, TouchableOpacity, TextInput, Text, Image, SafeAreaView, ActivityIndicator, KeyboardAvoidingView, ScrollView } from "react-native";
+import { View, TouchableOpacity, TextInput, Text, Image, SafeAreaView, ActivityIndicator, KeyboardAvoidingView, ScrollView, Alert, Button } from "react-native";
 import { MadMoneyApp } from "../components/MadMoneyApp";
 import { Back } from "../components/Back";
 import { profileStyles } from "../styles/Profile";
@@ -67,7 +67,6 @@ export function Profile(props) {
         setPhoneNumber({ ...phoneNumber, num: auth.user.phone })
         setgender(auth.user.gender)
         const birth = moment(auth.user.dob).format("DD/MM/YYYY")
-        console.log(birth)
         if(birth != "Invalid date"){
           setdob(birth)
         }
@@ -132,22 +131,20 @@ export function Profile(props) {
     let birthDate = moment(dob, "DD/MM/YYYY").format("YYYY-MM-DD")
     try {
       if (fullName && nickname && birthDate && email) {
-        console.log(birthDate)
         let Profile = { fullName, nickname, birthDate, email, phoneNumber, gender }
-        console.log(Profile)
         const res = await updateProfile(Profile);
         // console.log(res)
         if (res.message == "success") {
           const updatedData = await getUserDetails()
           if(!updatedData.error && !auth.user.socialId){
             setAuth({ isAuthenticating: false, isAuthenticated: true, user: updatedData.data})
+            showAlert()
           }
           else {
             setAuth({ isAuthenticating: false, isAuthenticated: true, user: {...updatedData.data,socialId:auth.user.socialId,socialProvider:auth.user.socialProvider}})
           }
-          nav.navigate("Main")
-          setIsSubmitting(false);
         }
+        setIsSubmitting(false);
         // console.log(res);
       }
     }
@@ -155,8 +152,13 @@ export function Profile(props) {
       console.log(err);
       setIsSubmitting(false);
     }
-
   };
+
+  const showAlert = ()=>{
+    Alert.alert('Success', 'Profile Updated Successfully!', [
+      {text: 'OK', onPress: () => nav.navigate("Main")},
+    ]);
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>

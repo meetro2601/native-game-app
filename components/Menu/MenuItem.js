@@ -38,7 +38,7 @@ const toggleAnimation = (duration) => {
   };
 };
 
-const MenuItem = ({ listItem }) => {
+const MenuItem = ({ listItem,handleLayer }) => {
   const [IsSubItemOpened, setIsSubItemOpened] = useState(false);
   const [auth, setAuth] = useContext(AuthContext)
 
@@ -53,6 +53,7 @@ const MenuItem = ({ listItem }) => {
 
   const signOut = async () => {
     console.log(auth.user.socialId)
+    handleLayer()
     try {
       if (auth.user.socialId != undefined) {
         if(auth.user.socialProvider == "Google"){
