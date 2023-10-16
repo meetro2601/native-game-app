@@ -40,7 +40,7 @@ export function LeaderBoard(props) {
   return (
     <MadMoneyApp>
       {/* <Header /> */}
-      <FilterTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs}/>
+      <FilterTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
       {/* <Tabs  /> */}
       <UserStage playersList={players} />
       <TopPlayers playersList={players} selectedTab={selectedTab} />
@@ -75,7 +75,7 @@ function UserStage(props) {
 
       <View style={leaderBoardStyles.userStageBlock2}>
         <View style={{ height: 220, alignItems: "center", justifyContent: "flex-end" }}>
-          <Shadow distance={15} startColor={'#0F5E5840'} endColor={'#ffffff40'}>
+          <Shadow distance={12} startColor={'#0F5E5840'} endColor={'#ffffff40'}>
             <Image
               style={[leaderBoardStyles.img2, leaderBoardStyles.img, leaderBoardStyles.backgroundRank2]}
               source={{
@@ -85,29 +85,32 @@ function UserStage(props) {
           </Shadow>
           <WinningRank rankStyle={leaderBoardStyles.winner2} rank={props.playersList[1]?.rank} />
         </View>
-        <WinningUser nameStyle={{ top: 10 }} name={props.playersList[1]?.sUserName} />
+        <WinningUser nameStyle={{ top: 5 }} name={props.playersList[1]?.yowzaUserName} />
 
       </View>
-      <View style={leaderBoardStyles.userStageBlock}>
+      <View style={[leaderBoardStyles.userStageBlock, { height: 220 }]}>
 
         {/* <View style={{}}> */}
-        <ImageBackground resizeMode="cover" style={{ height: 220, alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }} source={require("../assets/blast.png")}>
+        <ImageBackground resizeMode="cover" style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }} source={require("../assets/blast.png")}>
 
           <View style={leaderBoardStyles.crown}>
             <CrownSvgComponent />
           </View>
-          <Shadow distance={20} startColor={'#E2298260'} endColor={'#ffffff60'}>
+          <View style={{ top: 15 }}>
 
-          <Image
-            style={[leaderBoardStyles.img, leaderBoardStyles.img1, leaderBoardStyles.backgroundRank1]}
-            source={{
-              uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
-            }}
-            />
+            <Shadow distance={20} startColor={'#E2298260'} endColor={'#ffffff60'}>
+
+              <Image
+                style={[leaderBoardStyles.img, leaderBoardStyles.img1, leaderBoardStyles.backgroundRank1]}
+                source={{
+                  uri: "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg",
+                }}
+              />
             </Shadow>
-          <WinningRank rankStyle={leaderBoardStyles.winner1} rank={props.playersList[0]?.rank} />
+            <WinningRank rankStyle={leaderBoardStyles.winner1} rank={props.playersList[0]?.rank} />
+          </View>
 
-          <WinningUser nameStyle={{ top: 20 }} name={props.playersList[0]?.sUserName} />
+          <WinningUser nameStyle={{ top: 15 }} name={props.playersList[0]?.yowzaUserName} />
         </ImageBackground>
         {/* </View> */}
       </View>
@@ -123,7 +126,7 @@ function UserStage(props) {
             </Shadow>
           <WinningRank rankStyle={leaderBoardStyles.winner3} rank={props.playersList[2]?.rank} />
         </View>
-        <WinningUser nameStyle={{ top: 15 }} name={props.playersList[2]?.sUserName} />
+        <WinningUser nameStyle={{ top: 10 }} name={props.playersList[2]?.yowzaUserName} />
       </View>
       {/* </ImageBackground> */}
     </View>
@@ -132,7 +135,10 @@ function UserStage(props) {
 
 function WinningUser(props) {
   //return null;
-  return <Text style={[leaderBoardStyles.imgCaption, props.nameStyle]}>{props.name}</Text>;
+  return <View>
+    <Text style={[leaderBoardStyles.imgCaption, props.nameStyle]}>{props.name?.split("@")[0]}</Text>
+    <Text style={[leaderBoardStyles.imgCaption, props.nameStyle]}>{props.name?.split("@")[1]?.length > 0 && `@${props.name?.split("@")[1]}`}</Text>
+  </View>
 }
 
 function WinningRank(props) {
@@ -175,14 +181,14 @@ function TopPlayers(props) {
   useEffect(() => {
     const userScore = props?.playersList?.find((obj) => {
       // const user = await getUser()
-      return obj?.sUserName == auth.user.fullName && obj?.rank > 3
+      return obj?.yowzaUserName == auth.user.fullName && obj?.rank > 3
     })
 
     if (userScore == undefined) {
       setrankingList(props.playersList)
     } else {
       const otherPlayers = props?.playersList?.filter((obj) => {
-        return obj?.sUserName != auth.user.fullName && obj?.rank != userScore.rank
+        return obj?.yowzaUserName != auth.user.fullName && obj?.rank != userScore.rank
       })
       // console.log([userScore, ...otherPlayers])
       setrankingList(prevState => [userScore, ...otherPlayers])
@@ -193,18 +199,18 @@ function TopPlayers(props) {
     <View style={leaderBoardStyles.recentMatch}>
       <Shadow distance={4} style={leaderBoardStyles.recentMatchHead}>
 
-      {/* <View style={leaderBoardStyles.recentMatchHead}> */}
+        {/* <View style={leaderBoardStyles.recentMatchHead}> */}
         <LinearGradient
           colors={["#157BF2", "rgba(21, 123, 242, 0)"]}
           locations={[0, 1]}
           start={{ x: 0.2, y: 0.0 }} end={{ x: 1, y: 1.5 }}
           style={{ borderTopLeftRadius: 40, height: "100%", borderTopRightRadius: 40 }}
-          >
+        >
           <Text style={leaderBoardStyles.recentMatchHeadText}>Recent Match</Text>
         </LinearGradient>
-      {/* </View> */}
-      
-          </Shadow>
+        {/* </View> */}
+
+      </Shadow>
       <Players ranking={rankingList} />
     </View>
   );
@@ -247,7 +253,7 @@ function Player(props) {
           <Text style={leaderBoardStyles.playerText}>#{props.player.rank}</Text>
         </View>
         <View style={[leaderBoardStyles.gameResultItem, { flex: 3, alignItems: "center" }]}>
-          <Text style={leaderBoardStyles.playerText}>{props.player.sUserName}</Text>
+          <Text style={leaderBoardStyles.playerText}>{props.player.yowzaUserName}</Text>
         </View>
         <View style={[leaderBoardStyles.gameResultItem, { flex: 1, alignItems: "center" }]}>
           <View style={[leaderBoardStyles.scoreBox]}>

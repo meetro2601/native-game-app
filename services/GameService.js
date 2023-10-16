@@ -9,6 +9,14 @@ export async function getToken() {
   return user.token;
 }
 
+export async function getAllgames(){
+  const {token} = await getUser();
+  if (token) {
+    const res = await postFetchCall(hostUrl + "/getgames", "POST", token,{});
+    return await res.json();
+  }
+}
+
 export async function getCurrentUserGamePoints(username) {
   const {token} = await getUser();
   // console.log(JSON.stringify(user));

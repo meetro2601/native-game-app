@@ -1,29 +1,33 @@
 import RaymanGame from "../assets/games/Rayman.jpg";
 import ZombieGame from "../assets/games/zombie.png";
 
-export const gamesList = [
+export const allgamesList = [
     {
-        game:"https://mmweb.smartechy.net/games/5?ptoken=",
-        img:"https://mmweb.smartechy.net//Imgs/gm_5.png"
+        gmM_Id:5,
+        gameURL:"https://mmweb.smartechy.net/games/5",
+        gameImage:"https://mmweb.smartechy.net//Imgs/gm_5.png"
     },
     {
-        game:"https://mmweb.smartechy.net/games/3?ptoken=",
-        img:"https://mmweb.smartechy.net//Imgs/gm_3.png"
+        gmM_Id:3,
+        gameURL:"https://mmweb.smartechy.net/games/3",
+        gameImage:"https://mmweb.smartechy.net//Imgs/gm_3.png"
     },
     {
-        game:"https://mmweb.smartechy.net/games/4?ptoken=",
-        img:"https://mmweb.smartechy.net//Imgs/gm_4.png"
+        gmM_Id:4,
+        gameURL:"https://mmweb.smartechy.net/games/4",
+        gameImage:"https://mmweb.smartechy.net//Imgs/gm_4.png"
     },
     {
-        game:"https://mmweb.smartechy.net/games/2?ptoken=",
-        img:"https://mmweb.smartechy.net//Imgs/gm_2.png"
+        gmM_Id:2,
+        gameURL:"https://mmweb.smartechy.net/games/2",
+        gameImage:"https://mmweb.smartechy.net//Imgs/gm_2.png"
     },
-    {
-        game:"https://mmweb.smartechy.net/games/99?ptoken=",
-        img:ZombieGame
-    },
-    {
-        game:"99",
-        img:RaymanGame
-    },
+    // {
+    //     game:"https://mmweb.smartechy.net/games/99",
+    //     img:ZombieGame
+    // },
+    // {
+    //     game:"99",
+    //     img:RaymanGame
+    // },
 ]

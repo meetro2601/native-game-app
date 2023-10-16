@@ -1,18 +1,21 @@
-import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity, StyleSheet, Button, StatusBar, BackHandler, useWindowDimensions, FlatList } from "react-native";
-import { useEffect, useState, useRef, useContext } from "react";
+import { SafeAreaView, ScrollView, Image, Text, View, TouchableOpacity, BackHandler, useWindowDimensions } from "react-native";
+import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import { styles } from "../styles/Home";
 import { Header } from "../components/Header";
 import { useNavigation } from "@react-navigation/native";
-import { getToken } from "../services/GameService";
+import { getAllgames, getCurrentUserGamePoints, getToken } from "../services/GameService";
 import { Video, ResizeMode } from "expo-av";
-import RaymanGame from "../assets/games/Rayman.jpg";
-import ZombieGame from "../assets/games/zombie.png";
-import { MadMoneyApp } from "../components/MadMoneyApp";
-import { gamesList } from "../utils/gamesList";
 import { GameContext } from "../context/GameContext";
+import { MadMoneyAppStyles } from "../styles/MadMoneyApp";
+import { RefreshControl } from "react-native-gesture-handler";
+import { AuthContext } from "../context/AuthContext";
+import { allgamesList } from "../utils/gamesList";
+
 
 export function Home(props) {
   const [data, setData] = useState({ token: "" });
+  const [auth] = useContext(AuthContext)
+  const [game, setGame, gamesList, setgamesList] = useContext(GameContext);
   const [status, setStatus] = useState({});
   const navigation = useNavigation()
 
@@ -44,10 +47,46 @@ export function Home(props) {
     return () => BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
   }, []);
 
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      const res = await getAllgames()
+      if (res.data?.length > 0) {
+        setgamesList(res.data)
+      }
+      getCurrentUserGamePoints(auth.user.username).then((res) => {
+        const userData = res?.data?.find((item) => {
+          if (item.yowzaUserName == auth.user.fullName) return item
+        })
+        console.log(userData)
+        if (userData !== undefined) {
+          setGame({ ...game, totalCoins: userData.sCoins, totalPoints: userData.sPoints })
+          //   setData(r);
+        } else {
+          //   console.log("set empty data");
+          setGame({ gameMode: false, totalCoins: 0, totalPoints: 0 })
+          //   setData({ sPoints: 0, sCoins: 0, sUserName: "" });
+        }
+      }).catch(err => console.log("game cox error"));
+    } catch (error) {
+      console.log(error)
+    }
+    finally {
+      setRefreshing(false);
+    }
+  }, []);
+
 
   return (
-      <MadMoneyApp>
-        {/* <Header /> */}
+    <SafeAreaView style={MadMoneyAppStyles.container}>
+      <Header />
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        scrollEnabled={true} nestedScrollEnabled={true} contentContainerStyle={[{ paddingBottom: 40 }]}>
+        {props.children}
         <View
           style={[
             {
@@ -94,48 +133,52 @@ export function Home(props) {
           {/* </View> */}
         </View>
         <View style={[{ padding: 5, marginLeft: 2 }]}>
-          <View style={[{ flexDirection: "column", marginTop: 4 }]}>
-            <Text style={styles.popularGameTitle}>Popular Games</Text>
+          {
+            gamesList.length > 0 &&
+            <View style={[{ flexDirection: "column", marginTop: 4 }]}>
+              <Text style={styles.popularGameTitle}>Popular Games</Text>
 
-            <View
-              style={{
-                margin: 10,
-                paddingVertical: 18,
-                paddingHorizontal: 12,
-                backgroundColor: "white",
-                elevation: 12,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 34,
-                flex: 1,
-                flexDirection: "row",
-                flexWrap: "wrap",
-                marginBottom: 28,
-                // gap:8
-              }}
-            >
-              {
-                gamesList.length > 0 && gamesList.map((item, index) => {
-                  return <LaunchGame key={index} isLocal={index >= gamesList.length-2 ? true : false}
-                    gameUrl={item.game + data.token}
-                    imageUrl={item.img}
-                  />
-                })
-              }
+              <View
+                style={{
+                  margin: 10,
+                  paddingVertical: 18,
+                  paddingHorizontal: 12,
+                  backgroundColor: "white",
+                  elevation: 12,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 34,
+                  flex: 1,
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  marginBottom: 28,
+                  // gap:8
+                }}
+              >
+                {
+                  gamesList.map((item, index) => {
+                    return <LaunchGame key={item.gmM_Id}
+                      gameUrl={item.gameURL + "?ptoken=" + data.token}
+                      imageUrl={item.gameImage}
+                    />
+                  })
+                }
+              </View>
             </View>
-          </View>
+          }
         </View>
-      </MadMoneyApp>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 export function LaunchGame({ gameUrl, imageUrl, isLocal, last }) {
   const navigation = useNavigation();
-  const [game,setGame] = useContext(GameContext);
+  const [game, setGame] = useContext(GameContext);
   const width = useWindowDimensions().width
 
   const openGame = () => {
     navigation.navigate("Game", { gameUrl });
-    setGame({...game,gameMode:true})
+    setGame({ ...game, gameMode: true })
   };
 
   return (
@@ -156,8 +199,8 @@ export function LaunchGame({ gameUrl, imageUrl, isLocal, last }) {
         {isLocal ? (
           <Image style={{ height: "100%", borderRadius: 10, width: "100%" }} source={imageUrl} />
         ) : (
-        <Image style={{ height: "100%", borderRadius: 10, width: "100%" }} source={{ uri: `${imageUrl}` }} />
-         )}
+          <Image style={{ height: "100%", borderRadius: 10, width: "100%" }} source={{ uri: imageUrl }} />
+        )}
       </TouchableOpacity>
     </View>
   );

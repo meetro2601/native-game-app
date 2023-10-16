@@ -1,6 +1,6 @@
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { LaunchGame } from "./Home";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUser } from "../services/StorageService";
 import RaymanGame from "../assets/games/Rayman.jpg";
 import ZombieGame from "../assets/games/zombie.png";
@@ -8,8 +8,10 @@ import { MadMoneyApp } from "../components/MadMoneyApp";
 import { Header } from "../components/Header";
 import FilterTabs from "../components/FilterTabs";
 import { gamesList } from "../utils/gamesList";
+import { GameContext } from "../context/GameContext";
 
 export function AllGames(props) {
+    const [game,setGame,gamesList] = useContext(GameContext);
     const tabs = ["Single User", "Multi User"];
     // const tabs = ["Single User", "Multi User", "USER 1", "USER 2", "USER 3", "USER 4", "USER 5"];
     const [selectedTab, setSelectedTab] = useState("Single User")
@@ -55,9 +57,9 @@ export function AllGames(props) {
         >
             {
                 list.length > 0 && gamesList.map((item, index) => {
-                    return <LaunchGame key={index} isLocal={index >= gamesList.length - 2 ? true : false}
-                        gameUrl={item.game + data.token}
-                        imageUrl={item.img}
+                    return <LaunchGame key={item.gmM_Id}
+                        gameUrl={item.gameURL + data.token}
+                        imageUrl={item.gameImage}
                     />
                 })
             }

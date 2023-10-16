@@ -31,9 +31,28 @@ export function Game(props) {
   const route = useRoute();
   const navigation = useNavigation();
 
+    useEffect(() => {
+    const handleBackButton = () => {
+      getCurrentUserGamePoints(auth.user.username).then((res) => {
+        // console.log("Back Button")
+        const userData = res?.data?.find((item) => item.sUserName == auth.user.fullName)
+        if (userData !== undefined) {
+          setGame({ ...game, totalCoins: userData.sCoins, totalPoints: userData.sPoints })
+        } else {
+          setGame(game)
+          console.log("set empty data");
+        }
+      }).catch(err => console.log("Back button error"));
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    return () => BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+  }, []);
+
   const getPoints = () => {
     // if(game.gameMode){
     getCurrentUserGamePoints(auth.user.username).then((res) => {
+      // console.log("Back Arrow")
       const userData = res?.data?.find((item) => item.sUserName == auth.user.fullName)
       if (userData !== undefined) {
         setGame({ ...game, totalCoins: userData.sCoins, totalPoints: userData.sPoints })
